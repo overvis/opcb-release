@@ -1,0 +1,17 @@
+[Unit]
+Description=OPCB-221 interface daemon
+Wants=network.target
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+OOMScoreAdjust=-100
+ExecStart=/opt/opcb-221/opcb-221
+TimeoutSec=3
+RestartSec=2
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
