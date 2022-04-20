@@ -1,7 +1,7 @@
 # OPCB-221 runtime release for Raspberry Pi 3/3B/3B+
 
 OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
-connects industrial equipment (RS-485) to the internet (TCP/IP).
+connects the industrial equipment (RS-485) to the internet (TCP/IP).
 
 OPCB-221 is used to connect:
 
@@ -16,7 +16,7 @@ OPCB-221 is used to connect:
 _TODO: connection chart diagram._
 
 OPCB-221 device can be acquired as a product from
-[www.overvis.com](www.overvis.com) or manufactured by anyone using any
+[www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
 single-board computer. **This set of files automatically installs OPCB-221
 runtime and works with
 [Raspberry Pi 3/3B/3B+](https://www.raspberrypi.com/for-industry/) (Raspberry Pi
@@ -24,8 +24,8 @@ OS). If you have another board, please check other branches in this
 repository.**
 
 OPCB-221 can be used as a stand-alone device, but its main goal is to be
-compatible with [Overvis monitoring system.](www.overvis.com) In conjunction
-with Overvis it provides:
+compatible with [Overvis monitoring system.](https://www.overvis.com/) In
+conjunction with Overvis it provides:
 
 **Data collection:**
 
@@ -140,7 +140,7 @@ Connect your equipment to the USB<>RS485 converter and insert it into the
 Raspberry Pi with OPCB-221 services running. Consult your equipment manual for
 RS-485 connection.
 
-_TODO: expand this section with examples, debugging howtos and supported
+_TODO: expand this section with examples, debugging howtos and the supported
 equipment list._
 
 ## Maintenance
@@ -170,7 +170,7 @@ configuration web-interface page or can be accessed through the API.
 
 ### Automatic updates
 
-Automatic updates are implemented using cron job, and are being run daily. For
+Automatic updates are implemented using cron job and are being run daily. For
 details, see `/etc/cron.daily/opcb-update.sh` file on your device.
 
 ### Manual updates
