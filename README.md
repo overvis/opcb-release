@@ -1,4 +1,4 @@
-# OPCB-221 executables release for Raspberry Pi 3/3B/3B+
+# OPCB-221 runtime release for Raspberry Pi 3/3B/3B+
 
 OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
 connects industrial equipment (RS-485) to the internet (TCP/IP).
@@ -13,12 +13,12 @@ OPCB-221 is used to connect:
 -   Industrial sensors and meters
 -   Any other MODBUS-compatible electronics
 
-_TODO: graphic diagram._
+_TODO: connection chart diagram._
 
 OPCB-221 device can be acquired as a product from
 [www.overvis.com](www.overvis.com) or manufactured by anyone using any
 single-board computer. **This set of files automatically installs OPCB-221
-firmware and works with
+runtime and works with
 [Raspberry Pi 3/3B/3B+](https://www.raspberrypi.com/for-industry/) (Raspberry Pi
 OS). If you have another board, please check other branches in this
 repository.**
@@ -73,7 +73,7 @@ with Overvis it provides:
 -   Configuration web-interface accessible from local network or WiFi access
     point.
 -   Can be configured remotely using MODBUS.
--   RS-485 network configuration: baud rate, parity.
+-   RS-485 network configuration: baud rate, parity, response timeout.
 -   Multiple RS-485 networks support.
 -   HTTP API.
 
@@ -111,7 +111,7 @@ https://www.raspberrypi.com/documentation/computers/getting-started.html#install
 
 _TODO: link for more information about debugging using the console._
 
-### Installing the OPCB-221 firmware
+### Installing the OPCB-221 runtime
 
 1. Boot the Raspberry Pi from SD card with a fresh OS installation.
 2. Login to Raspberry Pi
@@ -178,7 +178,7 @@ details, see `/etc/cron.daily/opcb-update.sh` file on your device.
 Manual update can be initialized by running:
 
 ```bash
-sudo /opt/opcb-221/update.sh
+sudo /opt/opcb-release/update.sh
 ```
 
 ## Contributing
