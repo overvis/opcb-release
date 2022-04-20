@@ -1,11 +1,10 @@
 # OPCB-221 executables release for Raspberry Pi 3/3B/3B+
 
-OPCB-221 is a device that functions as MODBUS RTU - MODBUS TCP converter. Its
-main goal is to connect industrial (MODBUS) equipment to the internet (TCP/IP).
+OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
+connects industrial (RS-485) equipment to the internet (TCP/IP).
 
-OPCB-221 is used to manage remotely and gather analytics from:
+OPCB-221 is used to connect:
 
--   HACCP (Hazard Analysis Critical Control Point) reporting for product storage
 -   HVAC systems controllers
 -   Agricultural smart devices
 -   Refrigeration controllers
@@ -15,21 +14,21 @@ OPCB-221 is used to manage remotely and gather analytics from:
 -   Any other MODBUS-compatible electronics
 
 OPCB-221 device can be acquired as a product from
-[www.overvis.com](www.overvis.com) or manufactured using any single-board
-computer. **This set of files automatically installs OPCB-221 firmware and works
-with Raspberry Pi 3/3B/3B+ (Raspbian OS). If you have another board, please
-check other branches in this repository.**
+[www.overvis.com](www.overvis.com) or manufactured by anyone using any
+single-board computer. **This set of files automatically installs OPCB-221
+firmware and works with Raspberry Pi 3/3B/3B+ (Raspbian OS). If you have another
+board, please check other branches in this repository.**
 
 OPCB-221 can be used as a stand-alone device, but its main goal is to be
 compatible with [Overvis monitoring system.](www.overvis.com) In conjunction
-with Overvis OPCB-221 provides:
+with Overvis it provides:
 
 **Data collection:**
 
 -   Gather operational data points (any numeric values) from your equipment.
 -   Store history of operational data, get insights and analytics.
 -   Collected data is fully exportable (Excel, CSV).
--   Hazard Analysis Critical Control Point HACCP report.
+-   Hazard Analysis Critical Control Point HACCP reporting.
 
 **SMS and email notifications:**
 
@@ -57,6 +56,8 @@ with Overvis OPCB-221 provides:
     into other management systems.
 
 ![Display](./docs/overvis-display.jpeg)
+
+## Feature list as a stand-alone device
 
 ## Installation
 
