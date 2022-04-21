@@ -308,27 +308,48 @@ if [ "${wlan_netif}" != "" ] && [ ${wlan_mode} -eq 2 ]; then
 fi
 # ----------------------------------------------------------------------
 
+# Reload daemon for load changes from files
+systemctl daemon-reload
+
 # Services enable/disable
 if [ ${wlan_mode} -eq 0 ]; then
     # Disable wi-fi
-    rfkill block wifi
+    systemctl stop hostapd.service dnsmasq.service
     systemctl disable hostapd.service dnsmasq.service
+    rfkill block wifi
+    # Link down
+    if [ "${wlan_netif}" != "" ]; then
+        ip link set dev "${wlan_netif}" down
+    fi
     
 elif [ ${wlan_mode} -eq 1 ]; then
     # Enable wi-fi station
-    rfkill unblock wifi
+    systemctl stop hostapd.service dnsmasq.service
     systemctl disable hostapd.service dnsmasq.service
+    rfkill unblock wifi
+    # Link down
+    if [ "${wlan_netif}" != "" ]; then
+        ip link set dev "${wlan_netif}" down
+    fi
     
 elif [ ${wlan_mode} -eq 2 ]; then
     # Enable wi-fi access point
     rfkill unblock wifi
-    systemctl unmask hostapd.service
     systemctl enable hostapd.service dnsmasq.service
+    # Restart services
+    systemctl restart hostapd.service dnsmasq.service
+    # Link up
+    if [ "${wlan_netif}" != "" ]; then
+        ip link set dev "${wlan_netif}" up
+    fi
 fi
 
-#systemctl daemon-reload
-#systemctl restart dhcpcd.service wpa_supplicant.service hostapd.service dnsmasq.service networking.service
-#ip link set dev wlan0 down && ip link set dev wlan0 up
-#ip link set dev eth0 down && ip link set dev eth0 up
+# Restart services
+systemctl restart dhcpcd.service wpa_supplicant.service networking.service
+
+# Restart link
+if [ "${elan_netif}" != "" ]; then
+    ip link set dev "${elan_netif}" down && ip link set dev "${elan_netif}" up
+fi
 
 exit 0
