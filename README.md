@@ -3,6 +3,8 @@
 OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
 connects the industrial equipment (RS-485) to the internet (TCP/IP).
 
+![OPCB-221](./docs/opcb-221.png)
+
 OPCB-221 is used to connect:
 
 -   Refrigeration controllers
@@ -59,7 +61,7 @@ conjunction with Overvis it provides:
 -   Overvis API allows the automation of control and can be used to load data
     into other management systems.
 
-![Display](./docs/overvis-display.jpeg)
+![Overvis distributed objects monitoring visualization example.](./docs/overvis-display.jpeg)
 
 ## Feature list
 
@@ -118,7 +120,7 @@ _TODO: link for more information about debugging using the console._
    [remotely using SSH](https://www.raspberrypi.com/documentation/computers/remote-access.html#introduction-to-remote-access)
    or through debugging console using USB-RS232TTL. Make sure that Raspberry Pi
    has access to the internet.
-3. Insert USB<>RS485 converter into the Raspberry Pi USB.
+3. Insert USB<>RS485 converter into the Raspberry Pi USB port.
 4. Run the following Bash command:
 
 ```bash
@@ -142,6 +144,10 @@ RS-485 connection.
 
 _TODO: expand this section with examples, debugging howtos and the supported
 equipment list._
+
+### Connecting OPCB-221 to Overvis monitoring system
+
+_TODO_
 
 ## Maintenance
 
@@ -170,10 +176,10 @@ configuration web-interface page or can be accessed through the API.
 
 ### Automatic updates
 
-Automatic updates are implemented using cron job and are being run daily. For
-details, see `/etc/cron.daily/opcb-update.sh` file on your device.
+Automatic updates are implemented using cron job and are being run daily. See
+`/etc/cron.daily/opcb-update.sh` file on your device.
 
-### Manual updates
+### Update manually
 
 Manual update can be initialized by running:
 
@@ -186,23 +192,6 @@ sudo /opt/opcb-release/update.sh
 Please use GitHub issues to report any errors or ask questions. We plan to
 release OPCB-221 source code as soon as it will be documented.
 
-## License (MIT)
+## License (Apache)
 
-Copyright (c) 2022 Overvis
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
-IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+See [LICENSE](./LICENSE)
