@@ -17,4 +17,4 @@ systemctl enable opcb.service
 systemctl restart opcb.service
 
 # Install update to the crone
-ln -sf /opt/opcb-release/update.sh /etc/cron.daily/opcb-update.sh
+ln -sf /opt/opcb-release/update.sh /etc/cron.daily/opcb-update
