@@ -15,7 +15,7 @@ OPCB-221 is used to connect:
 -   Industrial sensors and meters
 -   Any other MODBUS-compatible electronics
 
-![Operation diagram](./docs/operation-diagram.png)
+![Operation diagram](./docs/operation-diagram.svg)
 
 OPCB-221 device can be acquired as a product from
 [www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
