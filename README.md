@@ -10,12 +10,12 @@ OPCB-221 is used to connect:
 -   Refrigeration controllers
 -   HVAC systems controllers
 -   Agricultural smart devices
--   Power network relays, meters and other equipment
+-   Power network relays, meters, and other electrical equipment
 -   Industrial IoT devices
 -   Industrial sensors and meters
 -   Any other MODBUS-compatible electronics
 
-_TODO: connection chart diagram._
+![Operation diagram](./docs/operation-diagram.png)
 
 OPCB-221 device can be acquired as a product from
 [www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
@@ -26,7 +26,7 @@ OS). If you have another board, please check other branches in this
 repository.**
 
 OPCB-221 can be used as a stand-alone device, but its main goal is to be
-compatible with [Overvis monitoring system.](https://www.overvis.com/) In
+compatible with the [Overvis monitoring system.](https://www.overvis.com/) In
 conjunction with Overvis it provides:
 
 **Data collection:**
@@ -40,7 +40,7 @@ conjunction with Overvis it provides:
 
 -   Configure alarms for operational parameters thresholds or connection errors.
 -   Set up a “chain of responsibility” requiring alarm confirmations from
-    personnel and escalating them on the absence of response.
+    personnel and escalating them in the absence of response.
 -   All alarm actions are logged and ready for review.
 
 **Real-time monitoring and control:**
@@ -70,12 +70,11 @@ conjunction with Overvis it provides:
 -   MODBUS RTU/TCP slave mode for RS-485 network extension tasks.
 -   MODBUS ASCII mode support.
 -   LAN + Wi-Fi.
--   Optional 3G/LTE connection with external USB modem.
+-   Optional 3G/LTE connection with an external USB modem.
 -   Wi-Fi access point mode.
--   Configuration web-interface accessible from local network or WiFi access
-    point.
--   Can be configured remotely using MODBUS.
--   RS-485 network configuration: baud rate, parity, response timeout.
+-   Web interface, accessible from the local network or WiFi access point.
+-   Remote configuration (using MODBUS).
+-   RS-485 network settings: baud rate, parity, response timeout.
 -   Multiple RS-485 networks support.
 -   HTTP API.
 
@@ -87,18 +86,18 @@ Required hardware:
 
 -   Raspberry Pi 3/3B/3B+ (https://www.raspberrypi.com/for-industry/)
 -   Micro SD card, 4GB or more.
--   High-quality 2.5A micro USB power supply (e.g.
+-   High-quality 2.5A micro USB power supply (e.g.,
     [Raspberry Pi Universal Power Supply](https://www.raspberrypi.com/products/raspberry-pi-universal-power-supply/))
--   Any USB<>RS485 converter (e.g.
+-   Any USB<>RS485 converter (e.g.,
     https://www.amazon.com/Industrial-USB-RS485-Converter-Communication/dp/B081MB6PN2)
 
 Optional hardware:
 
 -   _If LAN connection is required:_ RJ45 (Ethernet) cable.
--   _If mobile network connection is required:_ 3G/LTE USB modem with a local
-    carrier SIM card.
+-   _If the mobile network connection is required:_ 3G/LTE USB modem with a
+    local carrier SIM card.
 -   _For debugging console in case of network connection issues:_ USB-RS232TTL
-    3.3V CH340 with pin connection cords (e.g.
+    3.3V CH340 with pin connection cords (e.g.,
     https://robotdyn.com/usb-serial-adapter-ch340g-5v-3-3v.html)
 -   Case for the Raspberry Pi.
 
@@ -106,8 +105,8 @@ _TODO: hardware connection schematic_
 
 ### Installing the Raspberry Pi OS
 
-See Raspberry Pi documentation for details on how to prepare SD card with fresh
-Raspberry Pi OS installation:
+See Raspberry Pi documentation for details on how to prepare an SD card with
+fresh Raspberry Pi OS installation:
 
 https://www.raspberrypi.com/documentation/computers/getting-started.html#installing-the-operating-system
 
@@ -115,10 +114,10 @@ _TODO: link for more information about debugging using the console._
 
 ### Installing the OPCB-221 runtime
 
-1. Boot the Raspberry Pi from SD card with a fresh OS installation.
+1. Boot the Raspberry Pi from the SD card with a fresh OS installation.
 2. Login to Raspberry Pi
    [remotely using SSH](https://www.raspberrypi.com/documentation/computers/remote-access.html#introduction-to-remote-access)
-   or through debugging console using USB-RS232TTL. Make sure that Raspberry Pi
+   or using the debugging console with USB-RS232TTL. Make sure that Raspberry Pi
    has access to the internet.
 3. Insert USB<>RS485 converter into the Raspberry Pi USB port.
 4. Run the following Bash command:
@@ -130,11 +129,11 @@ sudo git clone --branch opcb-221-rpi3 --depth 1 --single-branch https://github.c
 Enter the password if requested.
 
 After this command completes, OPCB-221 services should be installed and running.
-Configuration web-interface is provided. You can access it by entering Raspberry
-Pi's IP address in the browser of any computer or mobile device in the same
-local network or Wi-Fi.
+A web interface is provided and accessible by entering Raspberry Pi's IP address
+in the browser of any computer or mobile device in the same local network or
+Wi-Fi.
 
-_TODO: web-interface screenshot._
+_TODO: web interface screenshot._
 
 ### Connecting to RS-485 MODBUS equipment
 
@@ -153,8 +152,8 @@ _TODO_
 
 ### Runtime details
 
-OPCB-221 runtime is installed as systemd service `opcb`. Start, stop or restart
-this service as needed.
+OPCB-221 runtime is installed as a systemd service `opcb`. Start, stop or
+restart this service as needed.
 
 ### Checking the system journal
 
@@ -171,8 +170,8 @@ Log level can be changed in the OPCB-221 configuration.
 OPCB-221 follows [semantic versioning.](https://semver.org/) Each version is
 tagged in this repository with a tag in the format `opcb-221-rpi3/A.B.C`
 
-Current version of the OPCB-221 services is displayed on the bottom of the
-configuration web-interface page or can be accessed through the API.
+The current version of the OPCB-221 services is displayed on the bottom of the
+configuration web interface page or can be accessed through the API.
 
 ### Automatic updates
 
@@ -181,7 +180,7 @@ Automatic updates are implemented using cron job and are being run daily. See
 
 ### Update manually
 
-Manual update can be initialized by running:
+A manual update process can be initialized by running:
 
 ```bash
 sudo /opt/opcb-release/update.sh
@@ -190,7 +189,7 @@ sudo /opt/opcb-release/update.sh
 ## Contributing
 
 Please use GitHub issues to report any errors or ask questions. We plan to
-release OPCB-221 source code as soon as it will be documented.
+release the OPCB-221 source code as soon as it is documented.
 
 ## License (Apache)
 
