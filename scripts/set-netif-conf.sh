@@ -43,30 +43,34 @@
 # wireles disabled (if wireles mode == 0)
     # no argument's present
 
+#
+# For translate error msg, use prefix 'Error, ...'
+#
+
 # Convert CIDR to network
 function cidr_to_netmask() {
-    value=$(( 0xffffffff ^ ((1 << (32 - $1)) - 1) ))
+    local value=$(( 0xffffffff ^ ((1 << (32 - $1)) - 1) ))
     echo "$(( (value >> 24) & 0xff )).$(( (value >> 16) & 0xff )).$(( (value >> 8) & 0xff )).$(( value & 0xff ))"
 }
 
 # Split 192.168.1.1/24 to 24
 function cut_cidr() {
-    IN=$1
-    arrIN=(${IN//// })
+    local IN=$1
+    local arrIN=(${IN//// })
     echo ${arrIN[1]}
 }
 
 # Split 192.168.1.1/24 to 192.168.1.1
 function cut_ip() {
-    IN=$1
-    arrIN=(${IN//// })
+    local IN=$1
+    local arrIN=(${IN//// })
     echo ${arrIN[0]}
 }
 
 # Write configuration file (must by use as full path file)
 function write_conf() {
-    file=$1
-    data=$2
+    local file=$1
+    local data=$2
     # Check exist file
     if [ -f "${file}" ]; then
         # Copy file...
@@ -233,7 +237,7 @@ if [ "${wlan_sta_ssid}" != "" ] && [ ${wlan_mode} -eq 1 ]; then
     # Check if password present
     if [ "${wlan_sta_passw}" != "" ]; then
         # Make psk
-        passw_hash=$((wpa_passphrase ${wlan_sta_ssid} ${wlan_sta_passw} |grep -E "psk" |grep -v "#psk" |cut -d "=" -f 2) >&1)
+        passw_hash=$(wpa_passphrase "${wlan_sta_ssid}" "${wlan_sta_passw}" |grep -E "psk" |grep -v "#psk" |cut -d "=" -f 2)
         content+="\tkey_mgmt=WPA-PSK\n"
         content+="\tpsk=${passw_hash}\n"
     else
@@ -288,13 +292,11 @@ if [ "${wlan_netif}" != "" ] && [ ${wlan_mode} -eq 2 ]; then
     content+="wpa=2\n"
     if [ "${wlan_ap_passw}" != "" ]; then
         # Make psk
-        passw_hash=$((wpa_passphrase ${wlan_ap_ssid} ${wlan_ap_passw} |grep -E "psk" |grep -v "#psk" |cut -d "=" -f 2) >&1)
+        passw_hash=$(wpa_passphrase "${wlan_ap_ssid}" "${wlan_ap_passw}" |grep -E "psk" |grep -v "#psk" |cut -d "=" -f 2)
         content+="wpa_psk=${passw_hash}\n"
-        #content+="wpa_passphrase=${wlan_ap_passw}\n"
         content+="wpa_key_mgmt=WPA-PSK\n"
     else
         content+="wpa_psk=\n"
-        #content+="wpa_passphrase=\n"
         content+="wpa_key_mgmt=NONE\n"
     fi
     content+="wpa_pairwise=TKIP\n"
@@ -308,48 +310,63 @@ if [ "${wlan_netif}" != "" ] && [ ${wlan_mode} -eq 2 ]; then
 fi
 # ----------------------------------------------------------------------
 
-# Reload daemon for load changes from files
-systemctl daemon-reload
-
 # Services enable/disable
 if [ ${wlan_mode} -eq 0 ]; then
-    # Disable wi-fi
-    systemctl stop hostapd.service dnsmasq.service
-    systemctl disable hostapd.service dnsmasq.service
+    # Stop services if needed
+    if (systemctl -q is-active hostapd.service) || (systemctl -q is-active dnsmasq.service); then
+        systemctl stop hostapd.service dnsmasq.service
+    fi
+
+    # Disable services if needed
+    if (systemctl -q is-enabled hostapd.service) || (systemctl -q is-enabled dnsmasq.service); then
+        systemctl disable hostapd.service dnsmasq.service
+    fi
+    
+    # Link Dwn
     rfkill block wifi
-    # Link down
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down
     fi
     
 elif [ ${wlan_mode} -eq 1 ]; then
-    # Enable wi-fi station
-    systemctl stop hostapd.service dnsmasq.service
-    systemctl disable hostapd.service dnsmasq.service
+    # Stop services if needed
+    if (systemctl -q is-active hostapd.service) || (systemctl -q is-active dnsmasq.service); then
+        systemctl stop hostapd.service dnsmasq.service
+    fi
+
+    # Disable services if needed
+    if (systemctl -q is-enabled hostapd.service) || (systemctl -q is-enabled dnsmasq.service); then
+        systemctl disable hostapd.service dnsmasq.service
+    fi
+
+    # Link Dwn/Up
     rfkill unblock wifi
-    # Link down
     if [ "${wlan_netif}" != "" ]; then
-        ip link set dev "${wlan_netif}" down
+        ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
     fi
     
 elif [ ${wlan_mode} -eq 2 ]; then
-    # Enable wi-fi access point
+    # Enable services if needed
+    if !(systemctl -q is-enabled hostapd.service) || !(systemctl -q is-enabled dnsmasq.service); then
+        systemctl enable hostapd.service dnsmasq.service
+    fi
+
+    # Link Dwn/Up
     rfkill unblock wifi
-    systemctl enable hostapd.service dnsmasq.service
+    if [ "${wlan_netif}" != "" ]; then
+        ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
+    fi
+
     # Restart services
     systemctl restart hostapd.service dnsmasq.service
-    # Link up
-    if [ "${wlan_netif}" != "" ]; then
-        ip link set dev "${wlan_netif}" up
-    fi
+fi
+
+# Link Dwn/Up
+if [ "${elan_netif}" != "" ]; then
+    ip link set dev "${elan_netif}" down && ip link set dev "${elan_netif}" up
 fi
 
 # Restart services
 systemctl restart dhcpcd.service wpa_supplicant.service networking.service
-
-# Restart link
-if [ "${elan_netif}" != "" ]; then
-    ip link set dev "${elan_netif}" down && ip link set dev "${elan_netif}" up
-fi
 
 exit 0

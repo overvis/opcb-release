@@ -9,6 +9,8 @@
 # Argument's:
 #
 # ${1} - host name (ex: 'RaspberryPi')
+#
+# For translate error msg, use prefix 'Error, ...'
 
 # Check root permission
 if [ "$(id -u)" != "0" ]; then
