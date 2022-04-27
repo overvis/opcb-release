@@ -340,6 +340,7 @@ elif [ ${wlan_mode} -eq 1 ]; then
 
     # Link Dwn/Up
     rfkill unblock wifi
+    sleep 1
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
         sleep 1
@@ -353,6 +354,7 @@ elif [ ${wlan_mode} -eq 2 ]; then
 
     # Link Dwn/Up
     rfkill unblock wifi
+    sleep 1
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
         sleep 1
