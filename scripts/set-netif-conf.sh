@@ -27,10 +27,10 @@
     # ${10} - wireles sta ssid (ex: 'My sta Wifi')
     # ${11} - wireles sta password (ex: 'sta12345678')
     # ${12} - wireles sta dhcp mode (0-user manual, 1-automatic)
-        # ${13} - wireles sta ip address and CIDR (ex: 192.168.1.24/24)
-        # ${14} - wireles sta gateway (ex: 192.168.1.1)
-        # ${15} - wireles sta dns1 server (ex: 8.8.8.8)
-        # ${16} - wireles sta dns2 server (ex: 1.1.1.1)
+    # ${13} - wireles sta ip address and CIDR (ex: 192.168.1.24/24)
+    # ${14} - wireles sta gateway (ex: 192.168.1.1)
+    # ${15} - wireles sta dns1 server (ex: 8.8.8.8)
+    # ${16} - wireles sta dns2 server (ex: 1.1.1.1)
 #
 # wireles access point (if wireles mode == 2)
     # ${9}  - wireles region by ISO 3166-1 (ex: 'PL')
@@ -107,11 +107,8 @@ if [ $# -ge 8 ]; then
     if [ ${8} -eq 0 ] && [ $# -eq 8 ]; then
         # Wi-fi is disabled
         :
-    elif [ ${8} -eq 1 ] && [ $# -eq 16 ] && [ ${12} -eq 0 ]; then
-        # Wi-fi is station (DHCP manual)
-        :
-    elif [ ${8} -eq 1 ] && [ $# -eq 12 ] && [ ${12} -eq 1 ]; then
-        # Wi-Fi is station (DHCP auto)
+    elif [ ${8} -eq 1 ] && [ $# -eq 16 ]; then
+        # Wi-fi is station
         :
     elif [ ${8} -eq 2 ] && [ $# -eq 14 ]; then
         # Wi-fi is access point
@@ -121,7 +118,7 @@ if [ $# -ge 8 ]; then
         exit 2
     fi
 else
-    echo "Error, invalid arguments."
+    echo "Error, invalid min required arguments."
     exit 2
 fi
 
@@ -324,8 +321,10 @@ if [ ${wlan_mode} -eq 0 ]; then
     
     # Link Dwn
     rfkill block wifi
+    sleep 1
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down
+        sleep 1
     fi
     
 elif [ ${wlan_mode} -eq 1 ]; then
@@ -343,6 +342,7 @@ elif [ ${wlan_mode} -eq 1 ]; then
     rfkill unblock wifi
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
+        sleep 1
     fi
     
 elif [ ${wlan_mode} -eq 2 ]; then
@@ -355,18 +355,22 @@ elif [ ${wlan_mode} -eq 2 ]; then
     rfkill unblock wifi
     if [ "${wlan_netif}" != "" ]; then
         ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
+        sleep 1
     fi
 
     # Restart services
     systemctl restart hostapd.service dnsmasq.service
+    sleep 1
 fi
 
 # Link Dwn/Up
 if [ "${elan_netif}" != "" ]; then
     ip link set dev "${elan_netif}" down && ip link set dev "${elan_netif}" up
+    sleep 1
 fi
 
 # Restart services
 systemctl restart dhcpcd.service wpa_supplicant.service networking.service
+sleep 1
 
 exit 0
