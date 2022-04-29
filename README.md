@@ -34,7 +34,7 @@ conjunction with Overvis it provides:
 -   Gather operational data points (any numeric values) from your equipment.
 -   Store history of operational data, get insights and analytics.
 -   Collected data is fully exportable (Excel, CSV).
--   Hazard Analysis Critical Control Point HACCP reporting.
+-   Hazard Analysis Critical Control Point (HACCP) reporting.
 
 **SMS and email notifications:**
 
@@ -66,11 +66,11 @@ conjunction with Overvis it provides:
 ## Feature list
 
 -   MODBUS RTU/TCP converter
--   Serving as a TCP server and a MODBUS RTU master.
--   MODBUS RTU/TCP slave mode for RS-485 network extension tasks.
+-   TCP server / MODBUS RTU master.
+-   MODBUS RTU/TCP slave mode for RS-485 network extension.
 -   MODBUS ASCII mode support.
 -   LAN + Wi-Fi.
--   Optional 3G/LTE connection with an external USB modem.
+-   Optional 3G/LTE connection using an external USB modem.
 -   Wi-Fi access point mode.
 -   Web interface, accessible from the local network or WiFi access point.
 -   Remote configuration (using MODBUS).
