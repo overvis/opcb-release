@@ -1,2 +1,4 @@
 opcb-user.conf
 wireguard/ip-addr
+wireguard/private-key
+wireguard/publik-key
