@@ -1,13 +1,17 @@
 #!/bin/bash
 set -e
 
+#install wireguard
+apt-get install -y wireguard
+
 # Install nginx
 apt-get install -y nginx
 ln -sf /opt/opcb-release/nginx-sites/opcb-ui /etc/nginx/sites-enabled/opcb-ui
 systemctl restart nginx
 
-# Install WireGuard
-apt-get install -y wireguard
+# Install hostapd & dnsmasq
+apt-get install -y hostapd dnsmasq
+systemctl unmask hostapd.service
 
 # Install opcb service
 ln -sf /opt/opcb-release/services/opcb.service /etc/systemd/system/opcb.service
