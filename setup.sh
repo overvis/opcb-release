@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+#install wireguard
+apt-get install -y wireguard
+
 # Install nginx
 apt-get install -y nginx
 ln -sf /opt/opcb-release/nginx-sites/opcb-ui /etc/nginx/sites-enabled/opcb-ui
