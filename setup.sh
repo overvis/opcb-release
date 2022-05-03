@@ -9,10 +9,6 @@ apt-get install -y nginx
 ln -sf /opt/opcb-release/nginx-sites/opcb-ui /etc/nginx/sites-enabled/opcb-ui
 systemctl restart nginx
 
-# Install hostapd & dnsmasq
-apt-get install -y hostapd dnsmasq
-systemctl unmask hostapd.service
-
 # Install opcb service
 ln -sf /opt/opcb-release/services/opcb.service /etc/systemd/system/opcb.service
 systemctl daemon-reload
