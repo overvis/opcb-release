@@ -6,6 +6,9 @@ apt-get install -y nginx
 ln -sf /opt/opcb-release/nginx-sites/opcb-ui /etc/nginx/sites-enabled/opcb-ui
 systemctl restart nginx
 
+# Install WireGuard
+apt-get install -y wireguard
+
 # Install opcb service
 ln -sf /opt/opcb-release/services/opcb.service /etc/systemd/system/opcb.service
 systemctl daemon-reload
