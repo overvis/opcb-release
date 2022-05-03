@@ -1,27 +1,37 @@
 #!/bin/bash
 set -e
 
-# Configuration
-CLIENT_IP="$(cat ip-addr)"
-INTERFACE_IP="0.0.0.0"
-INTERFACE_PORT="51820"
-SERVER_KEY="w0369XE5FvLk1yUk2e7ft9BVyxfvGwCsIS9DN7ci/Ro="
-SERVER_IP="10.0.0.1/32"
-
 # Path to the working directory
 path=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 
-# Down the wire guard interface
-ip link set wg0 down
-ip link del wg0
-sleep 1
+# Configuration
+CLIENT_LOCAL_IP=$(cat "${path}/ip-addr")
+SERVER_PUB_KEY="w0369XE5FvLk1yUk2e7ft9BVyxfvGwCsIS9DN7ci/Ro="
+SERVER_IP="staging2.overvis.com"   # IP or domain name
+SERVER_PORT="57943"
+SERVER_LOCAL_IP="10.0.0.1/32"
 
-# Up the WireGuard interface
-ip link add wg0 type wireguard
-ip addr add "${CLIENT_IP}" dev wg0
-wg set wg0 private-key "${path}/private-key"
-ip link set wg0 up
-sleep 1
+if [ "${CLIENT_LOCAL_IP}" != "" ]; then
 
-# Add server peer
-wg set wg0 peer "${SERVER_KEY}" allowed-ips "${SERVER_IP}" endpoint "${INTERFACE_IP}:${INTERFACE_PORT}"
+    # Down the wireguard interface if ehist
+    if (ip link show wg0 1>/dev/null 2>/dev/null); then
+        ip link set wg0 down
+        ip link delete wg0
+        sleep 1
+    fi
+
+    # Up the WireGuard interface
+    ip link add wg0 type wireguard
+    ip address add "${CLIENT_LOCAL_IP}" dev wg0
+    wg set wg0 private-key "${path}/private-key"
+    ip link set dev wg0 up
+
+    # Add server peer
+    wg set wg0 peer "${SERVER_PUB_KEY}" allowed-ips "${SERVER_LOCAL_IP}" endpoint "${SERVER_IP}:${SERVER_PORT}" persistent-keepalive 10
+
+    echo "WireGuard configure complete."
+    exit 0
+fi
+
+echo "ERROR, Please configure client IP address in 'ip-addr' file."
+exit 1
