@@ -2,7 +2,8 @@
 set -e
 
 # Path to the working directory
-path=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
+path=$(dirname -- "$(readlink -f -- "$0")")
+#path="/opt/opcb-release/wireguard"
 
 # Configuration
 CLIENT_LOCAL_IP=$(cat "${path}/ip-addr")
@@ -11,7 +12,7 @@ SERVER_IP="staging2.overvis.com"   # IP or domain name
 SERVER_PORT="57943"
 SERVER_LOCAL_IP="10.0.0.1/32"
 
-if [ "${CLIENT_LOCAL_IP}" != "" ]; then
+if [ "${path}" != "" ] && [ "${CLIENT_LOCAL_IP}" != "" ]; then
 
     # Down the wireguard interface if ehist
     if (ip link show wg0 1>/dev/null 2>/dev/null); then
