@@ -10,7 +10,7 @@ CLIENT_LOCAL_IP=$(cat "${path}/ip-addr")
 SERVER_PUB_KEY="w0369XE5FvLk1yUk2e7ft9BVyxfvGwCsIS9DN7ci/Ro="
 SERVER_IP="staging2.overvis.com"   # IP or domain name
 SERVER_PORT="57943"
-SERVER_LOCAL_IP="10.0.0.1/32"
+SERVER_LOCAL_IP="10.42.0.1/32"
 
 if [ "${path}" != "" ] && [ "${CLIENT_LOCAL_IP}" != "" ]; then
 
