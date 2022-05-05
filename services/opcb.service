@@ -1,4 +1,5 @@
 [Unit]
+Documentation="https://github.com/overvis/opcb-release/tree/opcb-221-bpi5"
 Description=OPCB-221 interface daemon
 Wants=network.target
 After=syslog.target network.target
