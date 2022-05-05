@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Stop script if up wg0 interface
+if [ "$IFACE" == "wg0" ]; then
+    exit 0
+fi
+
 # Path to the working directory
 path=$(dirname -- "$(readlink -f -- "$0")")
 #path="/opt/opcb-release/wireguard"
