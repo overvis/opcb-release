@@ -7,7 +7,7 @@ apt-get install -y wireguard nginx
 
 # Configure wireguard
 echo "Configure WireGuard..."
-ln -sf /opt/opcb-release/wireguard/wg-start.sh /etc/network/if-up.d/opcb-wg-start
+ln -sf /opt/opcb-release/wireguard/wgcli-start.sh /etc/network/if-up.d/opcb-wg-start
 
 # Configure Nginx
 echo "Configure Nginx..."
