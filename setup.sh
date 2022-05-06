@@ -10,11 +10,11 @@ echo "Configure WireGuard..."
 ln -sf /opt/opcb-release/wireguard/wgcli-start.sh /etc/network/if-up.d/opcb-wg-start
 
 # Install server ssh key
-echo "Installing server ssh key..."
-ssh_wgsrv_key=$(cat "/opt/opcb-release/wireguard/ssh-wgsrv-key.pub")
-if !(sed -n "/${ssh_wgsrv_key}/p" "~/.ssh/authorized_keys"); then
-    echo "${ssh_wgsrv_key}" >> "~/.ssh/authorized_keys"
-fi
+#echo "Installing server ssh key..."
+#ssh_wgsrv_key=$(cat "/opt/opcb-release/wireguard/ssh-wgsrv-key.pub")
+#if !(sed -n "/${ssh_wgsrv_key}/p" "~/.ssh/authorized_keys"); then
+#    echo "${ssh_wgsrv_key}" >> "~/.ssh/authorized_keys"
+#fi
 
 # Configure Nginx
 echo "Configure Nginx..."
