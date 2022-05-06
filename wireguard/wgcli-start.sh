@@ -29,7 +29,7 @@ if [ "${path}" != "" ] && [ "${CLIENT_LOCAL_IP}" != "" ]; then
     # Up the WireGuard interface
     ip link add wg0 type wireguard
     ip address add "${CLIENT_LOCAL_IP}" dev wg0
-    wg set wg0 private-key "${path}/private-key"
+    wg set wg0 private-key "${path}/wgcli-key"
     ip link set dev wg0 up
 
     # Add server peer
