@@ -3,11 +3,16 @@ set -e
 
 # Installing some package's
 echo "Installing some package's..."
-apt-get install -y wireguard nginx hostapd dnsmasq
+apt-get install -y wireguard redis nginx hostapd dnsmasq
 
 # Configure wireguard
 echo "Configure WireGuard..."
 ln -sf /opt/opcb-release/wireguard/wgcli-start.sh /etc/network/if-up.d/opcb-wg-start
+
+# Configure redis
+echo "Configure Redis..."
+systemctl stop redis
+systemctl disable redis
 
 # Configure Nginx
 echo "Configure Nginx..."

@@ -307,6 +307,9 @@ if [ "${wlan_netif}" != "" ] && [ ${wlan_mode} -eq 2 ]; then
 fi
 # ----------------------------------------------------------------------
 
+# Restart global services
+systemctl restart networking.service
+
 # Services enable/disable
 if [ ${wlan_mode} -eq 0 ]; then
     # Stop services if needed
@@ -318,12 +321,14 @@ if [ ${wlan_mode} -eq 0 ]; then
     if (systemctl -q is-enabled hostapd.service) || (systemctl -q is-enabled dnsmasq.service); then
         systemctl disable hostapd.service dnsmasq.service
     fi
-    
+
+    # Restart services
+    systemctl restart wpa_supplicant.service
+
     # Link Dwn
-    rfkill block wifi
-    sleep 1
     if [ "${wlan_netif}" != "" ]; then
-        ip link set dev "${wlan_netif}" down
+        ip addr flush "${wlan_netif}"
+        ip link set "${wlan_netif}" down
         sleep 1
     fi
     
@@ -338,11 +343,13 @@ elif [ ${wlan_mode} -eq 1 ]; then
         systemctl disable hostapd.service dnsmasq.service
     fi
 
+    # Restart services
+    systemctl restart wpa_supplicant.service
+
     # Link Dwn/Up
-    rfkill unblock wifi
-    sleep 1
     if [ "${wlan_netif}" != "" ]; then
-        ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
+        ip addr flush "${wlan_netif}"
+        ip link set "${wlan_netif}" down && ip link set "${wlan_netif}" up
         sleep 1
     fi
     
@@ -352,27 +359,25 @@ elif [ ${wlan_mode} -eq 2 ]; then
         systemctl enable hostapd.service dnsmasq.service
     fi
 
+    # Restart services
+    systemctl restart wpa_supplicant.service dnsmasq.service hostapd.service
+
     # Link Dwn/Up
-    rfkill unblock wifi
-    sleep 1
     if [ "${wlan_netif}" != "" ]; then
-        ip link set dev "${wlan_netif}" down && ip link set dev "${wlan_netif}" up
+        ip addr flush "${wlan_netif}"
+        ip link set "${wlan_netif}" down && ip link set "${wlan_netif}" up
         sleep 1
     fi
-
-    # Restart services
-    systemctl restart hostapd.service dnsmasq.service
-    sleep 1
 fi
 
 # Link Dwn/Up
 if [ "${elan_netif}" != "" ]; then
-    ip link set dev "${elan_netif}" down && ip link set dev "${elan_netif}" up
+    ip addr flush "${elan_netif}"
+    ip link set "${elan_netif}" down && ip link set "${elan_netif}" up
     sleep 1
 fi
 
-# Restart services
-systemctl restart dhcpcd.service wpa_supplicant.service networking.service
-sleep 1
+# Restart dhcp
+systemctl restart dhcpcd.service
 
 exit 0
