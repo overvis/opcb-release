@@ -2,8 +2,13 @@
 set -e
 
 # Installing some package's
+# + wireguard
+# + redis libev-dev
+# + nginx
+# + hostapd
+# + dnsmasq
 echo "# Installing some package's..."
-apt-get install -y wireguard redis nginx hostapd dnsmasq
+apt-get install -y wireguard redis libev-dev nginx hostapd dnsmasq
 
 # Configure wireguard
 echo "# Configure WireGuard..."
