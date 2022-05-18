@@ -2,7 +2,7 @@
 set -e
 
 # Stop script if up wg0 interface
-if [ "$IFACE" == "wg0" ]; then
+if [ "$IFACE" == "wg0" ] || [ "$IFACE" == "lo" ]; then
     exit 0
 fi
 
