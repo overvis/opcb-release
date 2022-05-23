@@ -3,7 +3,7 @@ set -e
 
 # Installing some package's
 # + wireguard
-# + redis libev-dev
+# + redis
 # + nginx
 # + hostapd
 # + dnsmasq

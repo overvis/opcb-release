@@ -26,7 +26,8 @@ if [ "${new_hostname}" != "" ] && [ "${old_hostname}" != "" ]; then
     sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hosts"
     hostname ${new_hostname}
 else
-    echo "Error, new/old hostname is empty."
+    echo "${new_hostname} >/etc/hostname"
+    hostname ${new_hostname}
 fi
 
 exit 0
