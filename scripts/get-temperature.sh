@@ -46,7 +46,8 @@ function parse_result()
 #if [ $# -eq 1 ] && [ "${1}" != "" ]; then
 
     # Obtaining core temperature
-    vcgencmd measure_temp | parse_result
+    # vcgencmd measure_temp | parse_result
+    echo "0"
     exit 0
 
 #else
