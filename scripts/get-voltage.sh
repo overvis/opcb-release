@@ -27,7 +27,7 @@ function parse_result()
 {
 
     while IFS= read -r line; do
-    # test line contenst and parse as required
+    # test line contents and parse as required
     [[ "$line" =~ volt ]] && {
         volt=${line##*lt=}
         echo "${volt}"   # out

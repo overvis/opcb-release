@@ -1,13 +1,13 @@
 #!/bin/bash
-# Get Core Temperature on Raspbery Pi 3
-# Uses vcgencmd (which should be added to paths!)
+# Get System Volume Space on Raspberry Pi 3
+# Uses df
 #
 # Argument's:
 # none
 
 # Trim spaces on the string
 #function trim()
-#{
+# {
 #    local trimmed="${1}"
 #
 #    # Strip leading spaces.
@@ -22,15 +22,14 @@
 #    echo "${trimmed}"
 #}
 
-# parse result from 'vcgencmd measure_temp'
+# parse result from 'df -h /'
 function parse_result()
 {
 
     while IFS= read -r line; do
     # test line contents and parse as required
-    [[ "$line" =~ temp ]] && {
-        tempr=${line##*mp=}
-        echo "${tempr}"   # out
+    [[ "$line" =~ "/" ]] && {
+        echo "${line}"   # out
     }
     
     done
@@ -45,8 +44,8 @@ function parse_result()
 # Check argument
 #if [ $# -eq 1 ] && [ "${1}" != "" ]; then
 
-    # Obtaining core temperature
-    vcgencmd measure_temp | parse_result
+    # Obtaining volume space
+    df -h / | parse_result
     exit 0
 
 #else
