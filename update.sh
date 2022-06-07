@@ -2,6 +2,6 @@
 set -e
 
 cd /opt/opcb-release
-git fetch origin opcb-221-bpi5 --tags 
-git pull origin opcb-221-bpi5 --ff-only
+git fetch origin opcb-221-opipc --tags 
+git pull origin opcb-221-opipc --ff-only
 . setup.sh
