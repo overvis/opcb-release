@@ -22,7 +22,6 @@ printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' | tee /etc/apt
 # + resolvconf
 # + network-manager
 # + wireguard
-# + redis
 # + nginx
 echo "# Installing some package's..."
 apt-get update
@@ -47,7 +46,7 @@ done
 echo "# Configure 'resolvconf' => '/etc/resolv.conf'..."
 systemctl start resolvconf
 systemctl enable resolvconf
-ls -sf /run/resolvconf/resolv.conf /etc/resolv.conf
+ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
 
 # Configure 'network' => '/etc/network/interfaces'
 echo "# Configure 'network' => '/etc/network/interfaces'..."
@@ -99,7 +98,7 @@ echo "# Configure WireGuard VPN..."
 ln -sf /opt/opcb-release/wireguard/wgcli-check.cron /etc/cron.d/wg-check
 ln -sf /opt/opcb-release/wireguard/wg0.conf /etc/wireguard/wg0.conf
 systemctl daemon-reload
-systemctl restart wg-quick@wg0
+systemctl restart wg-quick@wg0 || true
 systemctl enable wg-quick@wg0
 
 # Configure Nginx
