@@ -8,8 +8,8 @@ apt-get install -y dirmngr
 
 # Add some package list
 echo "# Add some package list..."
-curl -fsSL https://packages.redis.io/gpg | gpg --yes --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
+#curl -fsSL https://packages.redis.io/gpg | gpg --yes --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
+#echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list
 #[[ $(apt-key list --list-keys 8B48AD6246925553 2>/dev/null) ]] || apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8B48AD6246925553
 [[ $(apt-key list --list-keys 648ACFD622F3D138 2>/dev/null) ]] || apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138
 [[ $(apt-key list --list-keys 0E98404D386FA1D9 2>/dev/null) ]] || apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9
@@ -26,11 +26,11 @@ printf 'Package: *\nPin: release a=unstable\nPin-Priority: 150\n' | tee /etc/apt
 # + nginx
 echo "# Installing some package's..."
 apt-get update
-apt-get install -y hostapd dnsmasq resolvconf network-manager wireguard redis-server nginx
+apt-get install -y hostapd dnsmasq resolvconf network-manager wireguard nginx
 
 # Configure package's
 echo "# Stopping resident package's..."
-declare -a namedaemon=("dhcpcd" "wpa_supplicant" "redis-server" "hostapd" "dnsmasq")
+declare -a namedaemon=("dhcpcd" "wpa_supplicant" "hostapd" "dnsmasq")
 for item in ${namedaemon[@]}
 do
     if [[ $(systemctl is-active $item) == "active" ]]; then
