@@ -1,5 +1,10 @@
 #!/bin/bash
+
 # Get git repository version
+#
+# result ex: opcb-221-rpi3/0.0.0|2022-06-16
+#
+# For translate error msg, use prefix 'Error, ...'
 #
 # Argument's:
 # ${1} - path to the git directory
@@ -14,8 +19,9 @@ fi
 if (git tag > /dev/null 2>&1); then
     version_var=$(git describe --always --dirty=-modified --tags)
     date_var=$(git show -s --format=%cs HEAD)
-    echo "${version_var} (${date_var})"
+    echo "${version_var}|${date_var}"
 else
-    echo "unknowb/0.0.0 (No git directory)"
+    echo "unknown/0.0.0"
 fi
+
 exit 0

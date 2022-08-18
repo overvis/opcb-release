@@ -1,0 +1,13 @@
+[Unit]
+Documentation="https://github.com/overvis/opcb-release/"
+Description=Fix mac address (00:10:20:30:40:50) on the eth0 interface
+Wants=network.target
+After=network.target
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/opt/opcb-release/scripts/fix-mac-addr.sh
+
+[Install]
+WantedBy=multi-user.target

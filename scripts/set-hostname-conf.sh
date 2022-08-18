@@ -18,15 +18,20 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
-# Set new host name
-new_hostname=${1}
-old_hostname=$(cat /etc/hostname)
-if [ "${new_hostname}" != "" ] && [ "${old_hostname}" != "" ]; then
-    sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hostname"
-    sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hosts"
-    hostname ${new_hostname}
-else
-    echo "Error, new/old hostname is empty."
+if [ $# == 1 ]; then
+    # Set new host name
+    new_hostname=${1}
+    old_hostname=$(cat /etc/hostname)
+
+    if [ "${new_hostname}" != "${old_hostname}" ]; then
+        if [ "${new_hostname}" != "" ] && [ "${old_hostname}" != "" ]; then
+            sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hostname"
+            sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hosts"
+        else
+            echo "${new_hostname} >/etc/hostname"
+        fi
+        hostname ${new_hostname}
+    fi
 fi
 
 exit 0
