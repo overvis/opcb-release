@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Install dirmngr
 echo "# Install 'dirmngr'..."
-[[ ! $(apt list --installed dirmngr 2>/dev/null | grep dirmngr) ]] || apt-get update
-apt-get install dirmngr
+[[ $(apt list --installed dirmngr 2>/dev/null | grep dirmngr) ]] || apt-get update
+apt-get install -y dirmngr
 
 # Add some package list
 echo "# Add some package list..."
