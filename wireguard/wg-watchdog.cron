@@ -1,0 +1,1 @@
+*/10 * * * * root /bin/bash -c 'ping -c 1 -w 1 -q 10.42.0.1 &>/dev/null || systemctl restart wg-quick@wg0.service'

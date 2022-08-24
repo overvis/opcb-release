@@ -1,54 +1,22 @@
 #!/bin/bash
+set -euo pipefail
+
 # Get System Volume Space on Raspberry Pi 3
 # Uses df
 #
 # Argument's:
 # none
-
-# Trim spaces on the string
-#function trim()
-# {
-#    local trimmed="${1}"
 #
-#    # Strip leading spaces.
-#    while [[ ${trimmed} == ' '* ]]; do
-#       trimmed="${trimmed## }"
-#    done
-#    # Strip trailing spaces.
-#    while [[ ${trimmed} == *' ' ]]; do
-#        trimmed="${trimmed%% }"
-#    done
-#
-#    echo "${trimmed}"
-#}
+# Result:
+# In KiB (ex: TOTAL|USED|AVAILABLE)
 
-# parse result from 'df -h /'
-function parse_result()
-{
+# Obtaining volume space
+# /dev/root      14988K 7613K  6672K  54% /
+mem=$(df -BK / | sed -n '1d; s/ * / /gp')
+array=($(sed -n 's/K//g; s/ /\n/gp' <<< "$mem"))
 
-    while IFS= read -r line; do
-    # test line contents and parse as required
-    [[ "$line" =~ "/" ]] && {
-        echo "${line}"   # out
-    }
-    
-    done
-}
+echo "-----SCRIPT COMPLETE-----"
 
-# Check root permission
-#if [ "$(id -u)" != "0" ]; then
-#    echo "Error, this script must be run as root"
-#    exit 1
-#fi
-
-# Check argument
-#if [ $# -eq 1 ] && [ "${1}" != "" ]; then
-
-    # Obtaining volume space
-    df -h / | parse_result
-    exit 0
-
-#else
-#    echo "Error, invalid argument"
-#    exit 2
-#fi
+# TOTAL|USED|AVAILABLE
+echo "${array[1]}|${array[2]}|${array[3]}"
+exit 0
