@@ -3,19 +3,19 @@
 OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
 connects the industrial equipment (RS-485) to the internet (TCP/IP).
 
-![OPCB-221](./docs/opcb-221.png)
+![OPCB-221](./docs/en/images/opcb-221.png)
 
 OPCB-221 is used to connect:
 
--   Refrigeration controllers
--   HVAC systems controllers
--   Agricultural smart devices
--   Power network relays, meters, and other electrical equipment
--   Industrial IoT devices
--   Industrial sensors and meters
--   Any other MODBUS-compatible electronics
+- Refrigeration controllers
+- HVAC systems controllers
+- Agricultural smart devices
+- Power network relays, meters, and other electrical equipment
+- Industrial IoT devices
+- Industrial sensors and meters
+- Any other MODBUS-compatible electronics
 
-![Operation diagram](./docs/operation-diagram.svg)
+![Operation diagram](./docs/en/images/operation-diagram.svg)
 
 OPCB-221 device can be acquired as a product from
 [www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
@@ -31,52 +31,52 @@ conjunction with Overvis it provides:
 
 **Data collection:**
 
--   Gather operational data points (any numeric values) from your equipment.
--   Store history of operational data, get insights and analytics.
--   Collected data is fully exportable (Excel, CSV).
--   Hazard Analysis Critical Control Point (HACCP) reporting.
+- Gather operational data points (any numeric values) from your equipment.
+- Store history of operational data, get insights and analytics.
+- Collected data is fully exportable (Excel, CSV).
+- Hazard Analysis Critical Control Point (HACCP) reporting.
 
 **SMS and email notifications:**
 
--   Configure alarms for operational parameters thresholds or connection errors.
--   Set up a “chain of responsibility” requiring alarm confirmations from
-    personnel and escalating them in the absence of response.
--   All alarm actions are logged and ready for review.
+- Configure alarms for operational parameters thresholds or connection errors.
+- Set up a “chain of responsibility” requiring alarm confirmations from
+  personnel and escalating them in the absence of response.
+- All alarm actions are logged and ready for review.
 
 **Real-time monitoring and control:**
 
--   Create dashboards with real-time information received from the equipment.
--   Visualize the data using open SVG format.
--   Use Google Maps API to display objects’ locations.
--   Use JavaScript and Overvis API to set up quick action controls for operation
-    personnel.
+- Create dashboards with real-time information received from the equipment.
+- Visualize the data using open SVG format.
+- Use Google Maps API to display objects’ locations.
+- Use JavaScript and Overvis API to set up quick action controls for operation
+  personnel.
 
 **And more:**
 
--   Use templates to quickly create devices and alarms.
--   Manage access levels for different accounts inside one organization.
--   Works with dynamic IPs and bypasses firewalls.
--   Optimized mobile access.
--   Industry-standard encryption.
--   Overvis API allows the automation of control and can be used to load data
-    into other management systems.
+- Use templates to quickly create devices and alarms.
+- Manage access levels for different accounts inside one organization.
+- Works with dynamic IPs and bypasses firewalls.
+- Optimized mobile access.
+- Industry-standard encryption.
+- Overvis API allows the automation of control and can be used to load data into
+  other management systems.
 
-![Overvis distributed objects monitoring visualization example.](./docs/overvis-display.jpeg)
+![Overvis distributed objects monitoring visualization example.](./docs/en/images/overvis-display.jpeg)
 
 ## Feature list
 
--   MODBUS RTU/TCP converter
--   TCP server / MODBUS RTU master.
--   MODBUS RTU/TCP slave mode for RS-485 network extension.
--   MODBUS ASCII mode support.
--   LAN + Wi-Fi.
--   Optional 3G/LTE connection using an external USB modem.
--   Wi-Fi access point mode.
--   Web interface, accessible from the local network or WiFi access point.
--   Remote configuration (using MODBUS).
--   RS-485 network settings: baud rate, parity, response timeout.
--   Multiple RS-485 networks support.
--   HTTP API.
+- MODBUS RTU/TCP converter
+- TCP server / MODBUS RTU master.
+- MODBUS RTU/TCP slave mode for RS-485 network extension.
+- MODBUS ASCII mode support.
+- LAN + Wi-Fi.
+- Optional 3G/LTE connection using an external USB modem.
+- Wi-Fi access point mode.
+- Web interface, accessible from the local network or WiFi access point.
+- Remote configuration (using MODBUS).
+- RS-485 network settings: baud rate, parity, response timeout.
+- Multiple RS-485 networks support.
+- HTTP API.
 
 ## Installation
 
@@ -84,22 +84,22 @@ conjunction with Overvis it provides:
 
 Required hardware:
 
--   Raspberry Pi 3/3B/3B+ (https://www.raspberrypi.com/for-industry/)
--   Micro SD card, 4GB or more.
--   High-quality 2.5A micro USB power supply (e.g.,
-    [Raspberry Pi Universal Power Supply](https://www.raspberrypi.com/products/raspberry-pi-universal-power-supply/))
--   Any USB<>RS485 converter (e.g.,
-    https://www.amazon.com/Industrial-USB-RS485-Converter-Communication/dp/B081MB6PN2)
+- Raspberry Pi 3/3B/3B+ (https://www.raspberrypi.com/for-industry/)
+- Micro SD card, 4GB or more.
+- High-quality 2.5A micro USB power supply (e.g.,
+  [Raspberry Pi Universal Power Supply](https://www.raspberrypi.com/products/raspberry-pi-universal-power-supply/))
+- Any USB<>RS485 converter (e.g.,
+  https://www.amazon.com/Industrial-USB-RS485-Converter-Communication/dp/B081MB6PN2)
 
 Optional hardware:
 
--   _If LAN connection is required:_ RJ45 (Ethernet) cable.
--   _If the mobile network connection is required:_ 3G/LTE USB modem with a
-    local carrier SIM card.
--   _For debugging console in case of network connection issues:_ USB-RS232TTL
-    3.3V CH340 with pin connection cords (e.g.,
-    https://robotdyn.com/usb-serial-adapter-ch340g-5v-3-3v.html)
--   Case for the Raspberry Pi.
+- _If LAN connection is required:_ RJ45 (Ethernet) cable.
+- _If the mobile network connection is required:_ 3G/LTE USB modem with a local
+  carrier SIM card.
+- _For debugging console in case of network connection issues:_ USB-RS232TTL
+  3.3V CH340 with pin connection cords (e.g.,
+  https://robotdyn.com/usb-serial-adapter-ch340g-5v-3-3v.html)
+- Case for the Raspberry Pi.
 
 _TODO: hardware connection schematic_
 
@@ -185,6 +185,10 @@ A manual update process can be initialized by running:
 ```bash
 sudo /opt/opcb-release/update.sh
 ```
+
+## User documentation
+
+See [OPCB-221 User Documentation.](./docs/en/README.md)
 
 ## Contributing
 

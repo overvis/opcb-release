@@ -1,65 +1,77 @@
 #!/bin/bash
+set -euo pipefail
+
 # Get WiFi AP List on Raspbery Pi 3
 # Use root permission !!!
 #
 # Argument's:
 # ${1} - wifi device name (ex: 'wlan0')
 #
-# For translate error msg, use prefix 'Error, ...'
 
-# Trim spaces on the string
-function trim()
-{
-    local trimmed="${1}"
-
-    # Strip leading spaces.
-    while [[ ${trimmed} == ' '* ]]; do
-       trimmed="${trimmed## }"
-    done
-    # Strip trailing spaces.
-    while [[ ${trimmed} == *' ' ]]; do
-        trimmed="${trimmed%% }"
-    done
-
-    echo "${trimmed}"
-}
-
-# parse result from 'iwlist scan'
-function parse_result()
-{
-    while IFS= read -r line; do
-        # test line contenst and parse as required
-        [[ "$line" =~ Address ]] && {
-            mac=$(trim ${line##*ess:})
-        }
-        [[ "$line" =~ Quality ]] && {
-            qual=${line##*ity=}
-            lvl=$(trim "${line##*evel=}")
-        }
-        [[ "$line" =~ ESSID ]] && {
-            essid=${line##*ID:}
-            echo "${essid}|${lvl}|${mac}"   # out
-        }
-    done
-}
+# Check argument
+if [[ $# -ne 1 ]] || [[ "$1" == "" ]]; then
+    echo "Error, invalid or not arguments ($@)."
+    exit 1
+fi
 
 # Check root permission
-if [ "$(id -u)" != "0" ]; then
+if [[ "$(id -u)" != "0" ]]; then
     echo "Error, this script must be run as root."
     exit 1
 fi
 
-# Check argument
-if [ $# -eq 1 ] && [ "${1}" != "" ]; then
-    # Scaning wifi ap station's
-    iwlist ${1} scan | parse_result
-    if [ $? -ne 1 ]; then
-        echo "Error, cannot scan wifi AP station's."
-        exit 2
-    fi
-    exit 0
+# Set IFS to ensure grep output split only at line end on for statement
+IFS='
+'
 
-else
-    echo "Error, script invalid argument."
-    exit 3
-fi
+# Scaning wifi AP
+echo "Scan wifi AP on '$1' begin..."
+wfReport=(`iw dev $1 scan | grep -o 'BSS ..\:..\:..:..\:..\:..\|SSID: .*\|signal\: .* \|freq\: .*'`)
+printf "%s\n" "${wfReport[@]}"
+
+echo "-----SCRIPT COMPLETE-----"
+
+# Result:
+# SSID|RSSI|BSSID
+field_count=1
+for field in ${wfReport[@]}; do
+
+    IFS=$' \t'
+    if [[ $field =~ "BSS" ]]; then
+        bss_array=( $field )
+        bssid=${bss_array[1]}
+    fi
+    if [[ $field =~ "freq:" ]]; then
+        freq_array=( $field )
+        freq=${freq_array[1]}
+    fi
+    if [[ $field =~ "signal:" ]]; then
+        signal_array=( $field )
+        rssi=${signal_array[1]}
+    fi
+    if [[ $field =~ "SSID" ]]; then
+        ssid_array=( $field )
+        unset ssid_array[0]
+        ssid=${ssid_array[@]}
+    fi
+
+    if [[ $field_count -eq 4 ]]; then
+
+        echo "\"${ssid}\"|${rssi}|${bssid}"
+
+        bss_array=()
+        bssid=''
+        freq_array=()
+        freq=''
+        signal_array=()
+        rssi=''
+        ssid_array=()
+        ssid=''
+
+        field_count=0
+    fi
+
+    field_count=$((field_count+1))
+done
+
+exit 0

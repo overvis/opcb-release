@@ -1,4 +1,5 @@
 opcb-user.conf
-wireguard/ip-addr
-wireguard/wgcli-key
-wireguard/wgcli-key.pub
+ui-static/opcb-label.png
+wireguard/dev-pin-code
+wireguard/wg-key
+wireguard/wg0.conf
