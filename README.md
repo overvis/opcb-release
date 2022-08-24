@@ -123,7 +123,7 @@ _TODO: link for more information about debugging using the console._
 4. Run the following Bash command:
 
 ```bash
-sudo git clone --branch opcb-221-rpi3 --depth 1 --single-branch https://github.com/overvis/opcb-release.git /opt/opcb-release && sudo /opt/opcb-release/setup.sh
+sudo git clone --branch opcb-221-opipc --depth 1 --single-branch https://github.com/overvis/opcb-release.git /opt/opcb-release && sudo /opt/opcb-release/setup.sh
 ```
 
 Enter the password if requested.
@@ -168,7 +168,7 @@ Log level can be changed in the OPCB-221-OPIPC configuration.
 ### Versioning
 
 OPCB-221-OPIPC follows [semantic versioning.](https://semver.org/) Each version is
-tagged in this repository with a tag in the format `opcb-221-rpi3/A.B.C`
+tagged in this repository with a tag in the format `opcb-221-opipc/A.B.C`
 
 The current version of the OPCB-221-OPIPC services is displayed on the bottom of the
 configuration web interface page or can be accessed through the API.
