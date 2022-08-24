@@ -96,7 +96,7 @@ elif [[ $mode -eq 1 ]] && [[ $# -eq 10 ]]; then
     # If connection not exist, then we create it
     if !(nmcli -t connection show "$con_name" >/dev/null 2>&1); then
         echo "Connection ${con_name} not exist, create it..."
-        nmcli connection add con-name "$con_name" ifname "$netif" type wifi
+        nmcli connection add con-name "$con_name" ifname "$netif" type wifi ssid "$sta_ssid"
         if [[ $? -ne 0 ]]; then
             # !error
             echo "Error, cannot create ${con_name} wifi connection!"
@@ -160,7 +160,7 @@ elif [[ $mode -eq 2 ]] && [[ $# -eq 6 ]]; then
     # If connection not exist, then we create it
     if !(nmcli -t connection show "$con_name" >/dev/null 2>&1); then
         echo "Connection ${con_name} not exist, create it..."
-        nmcli connection add con-name "$con_name" ifname "$netif" type wifi
+        nmcli connection add con-name "$con_name" ifname "$netif" type wifi ssid "$ap_ssid"
         if [[ $? -ne 0 ]]; then
             # !error
             echo "Error, cannot create ${con_name} wifi connection!"

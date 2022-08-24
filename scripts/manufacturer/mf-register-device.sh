@@ -209,7 +209,7 @@ echo "Server key added -- OK"
 echo ""
 echo "8. Generate device image..."
 umask 0022
-bash ./gen-label.sh "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/ui-static/opcb-label.png"
+bash ./mf-gen-label.sh "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/ui-static/opcb-label.png"
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Device info image created -- OK"
 
