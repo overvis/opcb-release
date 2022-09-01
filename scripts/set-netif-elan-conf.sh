@@ -71,19 +71,23 @@ echo "Reload configuration files..."
 nmcli connection reload
 
 # Reconnect
+echo "Connect ${con_name}..."
 status=$(nmcli -t device status | grep "^${netif}")
 if [[ "$status" =~ ":connected" ]]; then
-    echo "Device ${netif} already connected, disconnected it..."
+    echo "Device ${netif} already connected, disconnect it..."
     nmcli device disconnect "$netif" || true
-    sleep 2
+    sleep 1
+    echo "Reconnect ${con_name}..."
 fi
-echo "Connect ${con_name}..."
 nmcli --wait 10 connection up "$con_name"
 nmcli device set "$netif" autoconnect yes managed yes
 
 # Just in case, restart wireguard interface
+echo "Restart Wireguard VPN interface..."
 if [[ -f "/etc/wireguard/wg0.conf" ]]; then
     systemctl restart wg-quick@wg0.service
+else
+    echo "Skipped, config file empty or not exist!"
 fi
 
 echo "-----SCRIPT COMPLETE-----"

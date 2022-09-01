@@ -21,9 +21,8 @@ OPCB-221-OPIPC device can be acquired as a product from
 [www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
 single-board computer. **This set of files automatically installs OPCB-221-OPIPC
 runtime and works with
-[Orange Pi PC](https://www.raspberrypi.com/for-industry/) (Orange Pi
-OS). If you have another board, please check other branches in this
-repository.**
+[Banana Pi 5](https://wiki.banana-pi.org/Banana_Pi_BPI-M5) (Banana Pi OS). If
+you have another board, please check other branches in this repository.**
 
 OPCB-221-OPIPC can be used as a stand-alone device, but its main goal is to be
 compatible with the [Overvis monitoring system.](https://www.overvis.com/) In
@@ -65,17 +64,20 @@ conjunction with Overvis it provides:
 
 ## Feature list
 
-- MODBUS RTU/TCP converter
-- TCP server / MODBUS RTU master.
-- MODBUS RTU/TCP slave mode for RS-485 network extension.
+- MODBUS RTU/TCP converter.
+- Built-in Overvis cloud support (www.overvis.com).
+- Serving as TCP server or client, MODBUS RTU master or slave.
+- RS-485 network extension.
 - MODBUS ASCII mode support.
-- LAN + Wi-Fi.
+- Supporting LAN and/or Wi-Fi connection.
 - Optional 3G/LTE connection using an external USB modem.
-- Wi-Fi access point mode.
-- Web interface, accessible from the local network or WiFi access point.
-- Remote configuration (using MODBUS).
+- Wi-Fi Access Point mode.
+- Web-interface, accessible from the local network or via WiFi Access Point.
+- Remote configuration (using MODBUS or web-interface).
 - RS-485 network settings: baud rate, parity, response timeout.
 - Multiple RS-485 networks support.
+- MODBUS request debugging tools.
+- Automatic or manual firmware update.
 - HTTP API.
 
 ## Installation
@@ -84,10 +86,10 @@ conjunction with Overvis it provides:
 
 Required hardware:
 
-- Orange Pi PC (<https://www.raspberrypi.com/for-industry/>)
+- Banana Pi 5 (<https://www.raspberrypi.com/for-industry/>)
 - Micro SD card, 4GB or more.
 - High-quality 2.5A micro USB power supply (e.g.,
-  [Orange Pi Universal Power Supply](https://www.raspberrypi.com/products/raspberry-pi-universal-power-supply/))
+  [Banana Pi Universal Power Supply](https://www.raspberrypi.com/products/raspberry-pi-universal-power-supply/))
 - Any USB<>RS485 converter (e.g.,
   <https://www.amazon.com/Industrial-USB-RS485-Converter-Communication/dp/B081MB6PN2>)
 
@@ -99,14 +101,14 @@ Optional hardware:
 - _For debugging console in case of network connection issues:_ USB-RS232TTL
   3.3V CH340 with pin connection cords (e.g.,
   <https://robotdyn.com/usb-serial-adapter-ch340g-5v-3-3v.html>)
-- Case for the Orange Pi.
+- Case for the Banana Pi.
 
 _TODO: hardware connection schematic_
 
-### Installing the Orange Pi OS
+### Installing the Banana Pi OS
 
-See Orange Pi documentation for details on how to prepare an SD card with
-fresh Orange Pi OS installation:
+See Banana Pi documentation for details on how to prepare an SD card with fresh
+Banana Pi OS installation:
 
 <https://www.raspberrypi.com/documentation/computers/getting-started.html#installing-the-operating-system>
 
@@ -114,12 +116,12 @@ _TODO: link for more information about debugging using the console._
 
 ### Installing the OPCB-221-OPIPC runtime
 
-1. Boot the Orange Pi from the SD card with a fresh OS installation.
-2. Login to Orange Pi
+1. Boot the Banana Pi from the SD card with a fresh OS installation.
+2. Login to Banana Pi
    [remotely using SSH](https://www.raspberrypi.com/documentation/computers/remote-access.html#introduction-to-remote-access)
-   or using the debugging console with USB-RS232TTL. Make sure that Orange Pi
+   or using the debugging console with USB-RS232TTL. Make sure that Banana Pi
    has access to the internet.
-3. Insert USB<>RS485 converter into the Orange Pi USB port.
+3. Insert USB<>RS485 converter into the Banana Pi USB port.
 4. Run the following Bash command:
 
 ```bash

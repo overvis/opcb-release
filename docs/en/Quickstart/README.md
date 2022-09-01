@@ -5,10 +5,12 @@
 1. prepare RS485 bus, LAN / Wi-Fi router connected to Internet;
 
 ![prepared items](./images/start11.png)
+![](./images/Wiring_the_OPCB-221_1.svg)
 
 2. unpack OPCB-221;
 
 ![package contents](./images/start12.png)
+![](./images/Wiring_the_OPCB-221_2.svg)
 
 - compare OPCB-221 package contents with the manual inside, and ensure there are
   no traces of damage to any of the items;
@@ -16,13 +18,15 @@
 - keep the device in the target environment for 2 hours (at least) before
   powering it;
 
-3. insert memory card (included) into the OPCB-221 `Memory` slot;
+3. Memory card is factory pre-installed into the OPCB-221 `Memory` slot;
 
 ![memory card](./images/start13.png)
+![](./images/Wiring_the_OPCB-221_3.svg)
 
 4. connect RS-485 bus to RS485-to-USB convertor module (included);
 
 ![RS-485 bus](./images/start14.png)
+![](./images/Wiring_the_OPCB-221_4.svg)
 
 - note the direct signal contact `A`/`A+`/`D+` and inverted signal contact
   `B`/`B-`/`D-` connection, the bus shield (if any) should be grounded at a
@@ -34,6 +38,7 @@
 5. connect other Modbus controllable devices to RS-485 bus;
 
 ![other RS-485 devices](./images/start15.png)
+![](./images/Wiring_the_OPCB-221_5.svg)
 
 - the number of the devices sharing the same bus (without RS-485 repeater device
   insertion, not included) is limited by their receiver current consumption,
@@ -54,6 +59,7 @@
 6. connect RS-485-to-USB convertor module to OPCB-221;
 
 ![RS-485-to-USB module](./images/start16.png)
+![](./images/Wiring_the_OPCB-221_6.svg)
 
 - any of the OPCB-221 USB jacks marked `Ext.` can be used;
 - consider fixing the module in place with the zip ties (included) to avoid
@@ -63,6 +69,7 @@
    with the LAN cable (included);
 
 ![Ethernet cable](./images/start17.png)
+![](./images/Wiring_the_OPCB-221_7.svg)
 
 - do not connect to the router jack `WAN`/`Internet`, but use the conventional
   `LAN` jack instead;
@@ -70,11 +77,13 @@
 8. connect power unit (included) to OPCB-221 `Power` jack;
 
 ![power unit](./images/start18.png)
+![](./images/Wiring_the_OPCB-221_8.svg)
 
 9. connect power unit to the mains, power on OPCB-221 and other RS-485 bus
    devices.
 
 ![power on](./images/start19.png)
+![](./images/Wiring_the_OPCB-221_9.svg)
 
 - **ensure the mains connection is portected (with the 1A current limiter)**;
 

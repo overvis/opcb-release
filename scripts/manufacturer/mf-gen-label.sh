@@ -23,7 +23,7 @@ mac6=${dev_mac:15:2}
 
 # Generate QR code
 echo "Generate device QR code..."
-qrencode -s 9 -o ${path_qr} "https://с.overvis.com/pk/?pk=${dev_key_priv}"
+qrencode -s 8 -o ${path_qr} "https://c.overvis.com/${dev_pin}/?pk=${dev_key_priv}"
 
 # Create canvas
 echo "Generate device image..."
@@ -47,7 +47,7 @@ conv_param+=(-gravity center -draw "image over -280,52 0,0 \"${path_qr}\"")
 convert "${conv_param[@]}" "${path_img}"
 
 # Remove temporary qr code files
-#echo "Remove temporary files..."
-#rm -f ${path_qr}
+echo "Remove temporary files..."
+rm -f ${path_qr}
 
 exit 0
