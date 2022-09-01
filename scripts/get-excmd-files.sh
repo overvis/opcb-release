@@ -12,7 +12,7 @@ set -euo pipefail
 # none
 #
 # Result:
-# list of found files out of possible OVERVIS_DEACTIVATE, WIFI_AP
+# list of found files out of possible UNBIND_ACCOUNT, WIFI_AP, RESET_CONF
 #
 
 # Bind device
@@ -47,7 +47,7 @@ function check_mp() {
         for excmd in ${excmd_list[@]}
         do
             if [[ "${file^^}" == "${excmd}" ]]; then
-                echo "$excmd"
+                echo "/mnt/$1/$file"
             fi
         done
     done
