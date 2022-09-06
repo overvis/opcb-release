@@ -169,7 +169,6 @@ echo "Received response -- OK"
 
 # 8. Parse response (JSON)
 err_mask=0
-err_mac=0
 echo ""
 echo "8. Parse response from the server..."
 #
@@ -191,8 +190,7 @@ echo "  @ manufacturerName [ ${manufacturerName} ]"
 labelName=$(getJsonValue "labelName" "$response") || ((err_mask|=$?))
 echo "  @ labelName [ ${labelName} ]"
 #
-# TODO: after add MAC to API? romove err_mac and change to normal work
-bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_mac|=$?))
+bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_mask|=$?))
 echo "  @ macAddress [ ${bindMacAddress} ]"
 #
 if [[ $err_mask -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
@@ -201,7 +199,7 @@ echo "Parse response -- OK"
 # 9. Save MAC to the file
 echo ""
 echo "9. Save MAC to the 'dev-bind-mac' file."
-if [[ $err_mac -eq 0 ]] && [[ $bindMacAddress != $macAddress ]]; then
+if [[ $bindMacAddress != $macAddress ]]; then
     $macAddress = $bindMacAddress
     umask 0077
     echo "${macAddress}" >"configs/dev-bind-mac"
