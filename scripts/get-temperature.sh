@@ -11,7 +11,7 @@ set -euo pipefail
 
 # Obtaining core temperature
 sign=""
-tempr="0"
+tempr="-9999"
 file="/sys/class/thermal/thermal_zone0/temp";
 if [[ -f "${file}" ]]; then
     # +60606

@@ -17,12 +17,17 @@ if [[ $# -ne 1 ]] || [[ "$1" == "" ]]; then
     exit 1
 fi
 
-# Check is git directory
+echo "Enter to dir '$1'..."
 cd $1
+
+echo "Find tag..."
 if (git tag >/dev/null 2>&1); then
+    echo "Get version..."
     version_var=$(git describe --always --dirty=-modified --tags)
+    echo "Get date..."
     date_var=$(git show -s --format=%cs HEAD)
 else
+    echo "Tag not found!"
     version_var="unknown/0.0.0"
     date_var=""
 fi

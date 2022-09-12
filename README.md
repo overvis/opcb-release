@@ -3,7 +3,7 @@
 OPCB-221 is a device that functions as MODBUS RTU <> MODBUS TCP converter. It
 connects the industrial equipment (RS-485) to the internet (TCP/IP).
 
-![OPCB-221](./docs/images/opcb-221.png)
+![OPCB-221](./docs/en/images/opcb-221.png)
 
 OPCB-221 is used to connect:
 
@@ -15,7 +15,7 @@ OPCB-221 is used to connect:
 - Industrial sensors and meters
 - Any other MODBUS-compatible electronics
 
-![Operation diagram](./docs/images/operation-diagram.svg)
+![Operation diagram](./docs/en/images/operation-diagram.svg)
 
 OPCB-221 device can be acquired as a product from
 [www.overvis.com](https://www.overvis.com/) or manufactured by anyone using any
@@ -61,7 +61,7 @@ conjunction with Overvis it provides:
 - Overvis API allows the automation of control and can be used to load data into
   other management systems.
 
-![Overvis distributed objects monitoring visualization example.](./docs/images/overvis-display.jpeg)
+![Overvis distributed objects monitoring visualization example.](./docs/en/images/overvis-display.jpeg)
 
 ## Feature list
 
@@ -188,7 +188,7 @@ sudo /opt/opcb-release/update.sh
 
 ## User documentation
 
-See [OPCB-221 User Documentation.](./docs/README.md)
+See [OPCB-221 User Documentation.](./docs/en/README.md)
 
 ## Contributing
 
