@@ -13,6 +13,6 @@ set -euo pipefail
 # In millivolts (ex: 1262)
 
 # Obtaining core voltage
-volt="0"
+volt="-9999"
 echo ${volt}
 exit 0

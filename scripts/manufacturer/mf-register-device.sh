@@ -107,54 +107,59 @@ echo "Public key [ ${deviceWgPublicKey} ] -- OK"
 # 2. Send device info to the server [ register-device ]
 echo ""
 echo "2. Send device info to the server [ motherland.overvis.com ]..."
+err_code=0
 response=$(
-    curl --silent --fail --show-error -H "Content-Type: application/json" -d "{
+    curl --silent --show-error -H "Content-Type: application/json" -d "{
         \"licenseId\": \"${licenseId}\",
         \"licensePassword\": \"${licensePassword}\",
         \"deviceWgPublicKey\": \"${deviceWgPublicKey}\",
         \"macAddress\": \"${macAddress}\",
         \"description\": \"${description}\"
     }" https://motherland.overvis.com/api/register-device/
-)
-if [ $? -ne 0 ]; then echo "Error, Script terminated by error"; exit 1; fi
+) || ((err_code=$?))
+if [ $err_code -ne 0 ]; then
+    echo "$response"
+    echo "Error, Script terminated by error"
+    exit 1
+fi
 echo "Received response -- OK"
 
 # 3. Parse response (JSON)
-err_mask=0
+err_code=0
 echo ""
 echo "3. Parse response from the server..."
 #
-motherlandWgPublicKey=$(getJsonValue "motherlandWgPublicKey" "$response") || ((err_mask|=$?))
+motherlandWgPublicKey=$(getJsonValue "motherlandWgPublicKey" "$response") || ((err_code|=$?))
 echo "  @ motherlandWgPublicKey [ ${motherlandWgPublicKey} ]"
 #
-motherlandVpnIpAddress=$(getJsonValue "motherlandVpnIpAddress" "$response") || ((err_mask|=$?))
+motherlandVpnIpAddress=$(getJsonValue "motherlandVpnIpAddress" "$response") || ((err_code|=$?))
 echo "  @ motherlandVpnIpAddress [ ${motherlandVpnIpAddress} ]"
 #
-motherlandSshPublicKey=$(getJsonValue "motherlandSshPublicKey" "$response") || ((err_mask|=$?))
+motherlandSshPublicKey=$(getJsonValue "motherlandSshPublicKey" "$response") || ((err_code|=$?))
 echo "  @ motherlandSshPublicKey [ ${motherlandSshPublicKey} ]"
 #
-vpnIpAddress=$(getJsonValue "vpnIpAddress" "$response") || ((err_mask|=$?))
+vpnIpAddress=$(getJsonValue "vpnIpAddress" "$response") || ((err_code|=$?))
 echo "  @ vpnIpAddress [ ${vpnIpAddress} ]"
 #
-pinCode=$(getJsonValue "pinCode" "$response") || ((err_mask|=$?))
+pinCode=$(getJsonValue "pinCode" "$response") || ((err_code|=$?))
 echo "  @ pinCode [ ${pinCode} ]"
 #
-internalModelName=$(getJsonValue "internalModelName" "$response") || ((err_mask|=$?))
+internalModelName=$(getJsonValue "internalModelName" "$response") || ((err_code|=$?))
 echo "  @ internalModelName [ ${internalModelName} ]"
 #
-internalSolutionName=$(getJsonValue "internalSolutionName" "$response") || ((err_mask|=$?))
+internalSolutionName=$(getJsonValue "internalSolutionName" "$response") || ((err_code|=$?))
 echo "  @ internalSolutionName [ ${internalSolutionName} ]"
 #
-manufacturerName=$(getJsonValue "manufacturerName" "$response") || ((err_mask|=$?))
+manufacturerName=$(getJsonValue "manufacturerName" "$response") || ((err_code|=$?))
 echo "  @ manufacturerName [ ${manufacturerName} ]"
 #
-labelName=$(getJsonValue "labelName" "$response") || ((err_mask|=$?))
+labelName=$(getJsonValue "labelName" "$response") || ((err_code|=$?))
 echo "  @ labelName [ ${labelName} ]"
 #
-bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_mask|=$?))
+bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_code|=$?))
 echo "  @ macAddress [ ${bindMacAddress} ]"
 #
-if [[ $err_mask -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
+if [[ $err_code -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Parse response -- OK"
 
 # 4. Save MAC to the file
@@ -214,7 +219,8 @@ echo "Server key added -- OK"
 echo ""
 echo "9. Generate device image..."
 umask 0022
-bash "/opt/opcb-release/scripts/manufacturer/mf-gen-label.sh" "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/ui-static/opcb-label.png"
+cd "/opt/opcb-release/scripts/manufacturer/"
+bash "./mf-gen-label.sh" "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/wireguard/dev-label.png"
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Device info image created -- OK"
 
