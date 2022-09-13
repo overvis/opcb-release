@@ -6,19 +6,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- 
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- 
+
+### Security
+- 
+
+## [0.2.1] - 2022-09-13
+### Added
 - Added CHANGELOG.md file to the device (/opt/opcb-release/CHANGELOG.md).
 
 ### Changed
 - Documentation restructuring (/opt/opcb-release/docs).
+- Modbus constructor (VIU, droped request if field `UID` incorrect).
 
 ### Deprecated
-- 
+-
 
 ### Removed
 - Session support.
 
 ### Fixed
 - Fixed memory leak in webapi status read.
+- Fixed some bugs in manufacturer scripts.
+- Fixed disable WiFi
 
 ### Security
 -
