@@ -1,6 +1,6 @@
 opcb-user.conf
 configs/dev-bind-mac
-ui-static/opcb-label.png
+wireguard/dev-label.png
 wireguard/dev-pin-code
 wireguard/wg-key
 wireguard/wg0.conf
