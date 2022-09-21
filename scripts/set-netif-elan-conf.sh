@@ -85,7 +85,12 @@ nmcli device set "$netif" autoconnect yes managed yes
 # Just in case, restart wireguard interface
 echo "Restart Wireguard VPN interface..."
 if [[ -f "/etc/wireguard/wg0.conf" ]]; then
-    systemctl restart wg-quick@wg0.service
+    if !(ping -c 1 -w 1 -I "wg0" "10.42.0.1" >/dev/null 2>&1); then
+        systemctl restart wg-quick@wg0.service
+        echo "Restart Wireguard - OK"
+    else
+        echo "Skipped, wg0 ping success!"
+    fi
 else
     echo "Skipped, config file empty or not exist!"
 fi

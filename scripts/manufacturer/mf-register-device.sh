@@ -196,6 +196,7 @@ echo "Created Wireguard config file -- OK"
 # 6. Start Wireguard interface
 echo ""
 echo "6. Start Wireguard..."
+wg-quick down wg0 || true
 ln -sf /opt/opcb-release/wireguard/wg0.conf /etc/wireguard/wg0.conf
 systemctl restart wg-quick@wg0
 systemctl enable wg-quick@wg0

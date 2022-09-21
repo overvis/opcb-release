@@ -23,6 +23,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - 
 
+## [0.2.4] - 2022-09-21
+### Added
+- 
+
+### Changed
+- 
+
+### Deprecated
+- 
+
+### Removed
+- 
+
+### Fixed
+- Fixed domain setup.overvis.com in Wi-Fi AP mode.
+- Fixed bugs in module Modbus 485.
+- Fixed other known bugs.
+- Fixed UI.
+
+### Security
+- 
+
 ## [0.2.3] - 2022-09-13
 ### Added
 - Added CHANGELOG.md file to the device (/opt/opcb-release/CHANGELOG.md).

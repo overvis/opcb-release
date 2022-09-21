@@ -44,6 +44,8 @@ if [ -f "/usr/bin/wg" ]; then
     interface="wg0"
     dump=$(wg show ${interface} dump)
     info_array=($(sed -n 's/\t/\n/gp' <<< "$dump"))
+    printf "%s\n" "${info_array[@]}"
+
     if [ ${#info_array[@]} -lt 4 ]; then
         # !error
         echo "Error, cannot receive dump info!"
@@ -87,5 +89,5 @@ fi
 
 echo "-----SCRIPT COMPLETE-----"
 
-echo "${local_key}|${listen_port}|${peer_key}|${endpoint}|${allowed_ips}|${latest_handshake}|${transfer_rx}|${transfer_rx}|${keepalive}"
+echo "${local_key}|${listen_port}|${peer_key}|${endpoint}|${allowed_ips}|${latest_handshake}|${transfer_rx}|${transfer_tx}|${keepalive}"
 exit 0
