@@ -7,43 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - 
-
 ### Changed
 - 
-
 ### Deprecated
 - 
-
 ### Removed
 - 
-
 ### Fixed
 - 
-
 ### Security
 - 
 
+## [0.2.5] - 2022-09-23
+### Fixed
+- Fixed UI some bugs.
+
+
 ## [0.2.4] - 2022-09-21
-### Added
-- 
-
-### Changed
-- 
-
-### Deprecated
-- 
-
-### Removed
-- 
-
 ### Fixed
 - Fixed domain setup.overvis.com in Wi-Fi AP mode.
 - Fixed bugs in module Modbus 485.
 - Fixed other known bugs.
 - Fixed UI.
 
-### Security
-- 
 
 ## [0.2.3] - 2022-09-13
 ### Added
@@ -53,9 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation restructuring (/opt/opcb-release/docs).
 - Modbus constructor (VIU, droped request if field `UID` incorrect).
 
-### Deprecated
--
-
 ### Removed
 - Session support.
 
@@ -64,8 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed some bugs in manufacturer scripts.
 - Fixed disable WiFi
 
-### Security
--
 
 ## [0.0.13] - 2022-05-13
 ### Added
