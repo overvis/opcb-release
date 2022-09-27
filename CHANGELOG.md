@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - 
 
+## [0.2.6] - 2022-09-27
+### Changed
+- Update UI
+
+### Fixed
+- UI Clean texts
+- Known bugs
+
+
 ## [0.2.5] - 2022-09-23
 ### Fixed
 - Fixed UI some bugs.

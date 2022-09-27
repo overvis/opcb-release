@@ -162,21 +162,9 @@ echo "  @ macAddress [ ${bindMacAddress} ]"
 if [[ $err_code -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Parse response -- OK"
 
-# 4. Save MAC to the file
+# 4. Create Wireguard config file
 echo ""
-echo "4. Save MAC to the 'dev-bind-mac' file."
-if [[ $bindMacAddress != $macAddress ]]; then
-    $macAddress = $bindMacAddress
-    umask 0077
-    echo "${macAddress}" >"configs/dev-bind-mac"
-    echo "Save new MAC -- OK"
-else
-    echo "Skipped."
-fi
-
-# 5. Create Wireguard config file
-echo ""
-echo "5. Create Wireguard config file..."
+echo "4. Create Wireguard config file..."
 wg_conf="
 [Interface]
 Address = ${vpnIpAddress}/16
@@ -193,44 +181,63 @@ echo "$wg_conf" >"/opt/opcb-release/wireguard/wg0.conf"
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Created Wireguard config file -- OK"
 
-# 6. Start Wireguard interface
+# 5. Start Wireguard interface
 echo ""
-echo "6. Start Wireguard..."
+echo "5. Start Wireguard..."
 wg-quick down wg0 || true
 ln -sf /opt/opcb-release/wireguard/wg0.conf /etc/wireguard/wg0.conf
 systemctl restart wg-quick@wg0
 systemctl enable wg-quick@wg0
 echo "Wireguard started -- OK"
 
-# 7. Check Wireguard interface connection
+# 6. Check Wireguard interface connection
 echo ""
-echo "7. Check Wireguard connection..."
+echo "6. Check Wireguard connection..."
 ping -c 1 ${motherlandVpnIpAddress}
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Wireguard connected -- OK"
 
-# 8. Add authorized key
+# 7. Generate image Label
 echo ""
-echo "8. Add 'motherlandSshPublicKey' to 'authorized_keys' list..."
-umask 0077
-mkdir -p "/root/.ssh"; grep -q -F "${motherlandSshPublicKey}" "/root/.ssh/authorized_keys" 2>/dev/null || echo "${motherlandSshPublicKey}" >>"/root/.ssh/authorized_keys"
-echo "Server key added -- OK"
-
-# 9. Generate image Label
-echo ""
-echo "9. Generate device image..."
+echo "7. Generate device image..."
 umask 0022
 cd "/opt/opcb-release/scripts/manufacturer/"
 bash "./mf-gen-label.sh" "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/wireguard/dev-label.png"
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Device info image created -- OK"
 
-# 10. Save pin code to the file
+# 8. Save MAC to the file
 echo ""
-echo "10. Save pin code to the 'dev-pin-code' file..."
+echo "8. Save MAC to the 'dev-bind-mac' file."
+if [[ $bindMacAddress != $macAddress ]]; then
+    $macAddress = $bindMacAddress
+    umask 0077
+    echo "${macAddress}" >"configs/dev-bind-mac"
+    echo "Save new MAC -- OK"
+else
+    echo "Skipped."
+fi
+
+# 9. Save pin to the file
+echo ""
+echo "9. Save pin code to the 'dev-pin-code' file..."
 umask 0077
 echo "${pinCode}" >"/opt/opcb-release/wireguard/dev-pin-code"
 echo "Pin code saved -- OK"
+
+# 10. Save model to the file
+echo ""
+echo "10. Save model to the 'dev-model-name' file..."
+umask 0077
+echo "${labelName}" >"/opt/opcb-release/wireguard/dev-model-name"
+echo "Pin code saved -- OK"
+
+# 11. Add authorized key
+echo ""
+echo "11. Add 'motherlandSshPublicKey' to 'authorized_keys' list..."
+umask 0077
+mkdir -p "/root/.ssh"; grep -q -F "${motherlandSshPublicKey}" "/root/.ssh/authorized_keys" 2>/dev/null || echo "${motherlandSshPublicKey}" >>"/root/.ssh/authorized_keys"
+echo "Server key added -- OK"
 
 # Success
 echo "-----SCRIPT COMPLETE-----"
