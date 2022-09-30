@@ -18,6 +18,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 - 
 
+## [0.2.7] - 2022-09-30
+### Added
+- Add Web API GET request 'ex: get_sta.json?ver'.
+- Add Web API response error 403 Forbidden.
+
+### Changed
+- Change interaction 'ovm_bind_server' parameter from file 'UNBIND_ACCOUNT' on USB device.
+
+### Removed
+- Removed Web API 'set_cnfs.json' and 'get_cnfs.json'.
+
+### Fixed
+- Known bugs
+
+
 ## [0.2.6] - 2022-09-27
 ### Changed
 - Update UI
