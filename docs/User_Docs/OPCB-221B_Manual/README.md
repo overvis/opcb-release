@@ -9,8 +9,6 @@ of ISO 9001:2015.
 
 ## Purpose
 
-<!-- TODO: check -->
-
 The Controller OPCB-221B (hereinafter referred to as the "Controller", "Product", "Device", or
 "OPCB-221B") provides MODBUS communication between clients and servers in TCP networks (Internet)
 and between devices in the RS-485 interface.
@@ -81,7 +79,6 @@ of ASCII characters;
 ## Complete set
 
 <!-- TODO: picture -->
-<!-- TODO: warranty seals -->
 
 ![](./images/Wiring_the_OPCB-221B_2_Product_set.svg)
 
@@ -96,9 +93,6 @@ of ASCII characters;
 | 5. Operation manual                                                                              | 1               |
 
 ## Overall mounting dimensions and controls
-
-<!-- TODO: add figure. -->
-<!-- TODO: case print -->
 
 ![](./images/OPCB-221B_For_Read_me1.svg)
 
@@ -116,7 +110,6 @@ of ASCII characters;
 3. **"EXT2"** connectors - USB Type-A connectors for connecting additional modules (e.g., RS-485 /
    RS-232 serial interface converters).
 4. **"PWR"** connector - DC Plug for connecting a 5 V DC power source with a power of at least 9 W.
-   <!-- TODO: check -->
 5. **"HDMI"** connector - HDMI output (not used).
 6. **"AUX"** connector - Audio output (not used).
 7. **"MEM"** slot - MicroSD-card slot for internal memory card access.
@@ -269,8 +262,6 @@ Before the start:
 
 **Figure 2** – product connection diagram
 
-<!-- // TODO: check: -->
-
 Connect OPCB-221B according to Figure 2, in the following order:
 
 - Using a twisted-pair cable of category 1 or higher, connect the terminal block of the RS-485
@@ -289,8 +280,6 @@ Connect OPCB-221B according to Figure 2, in the following order:
 
 ### General information
 
-<!-- TODO: check -->
-
 OPCB-221B has a 32-bit processor running a POSIX-compliant OS. It routes the traffic between the
 USB extension modules, such as serial RS-485 / RS-232 interfaces (MODBUS RTU/ASCII protocols) and
 Ethernet/Wi-Fi LAN interfaces (MODBUS TCP protocol), possibly routed further to the Internet.
@@ -307,8 +296,6 @@ Point can be disabled in the settings.
 or replacing the memory card will render the product inoperable.**
 
 ### Power up and the reboot sequence
-
-<!-- TODO: check -->
 
 After the power-up, OPCB-221B loads the operating system and set up the communication interfaces.
 This can take up to 1 minute.
@@ -327,8 +314,6 @@ on again.
 
 ### Operation via HTTP
 
-<!-- TODO: check -->
-
 OPCB-221B provides an HTTP web interface and HTTP REST API for web applications. OPCB-221B accepts
 HTTP connections via Ethernet or Wi-Fi interfaces on TCP port 80.
 
@@ -344,8 +329,6 @@ For details on connecting, configuring, and using the product via the web interf
 C. For details on using the REST API, see Appendix F.
 
 ### OPCB-221B operation via MODBUS (TCP/RTU/ASCII)
-
-<!-- TODO: check -->
 
 OPCB-221B receives MODBUS TCP requests via Ethernet or Wi-Fi interfaces and transmits them in
 MODBUS RTU or MODBUS ASCII format over the serial interface. Responses are converted to MODBUS TCP
@@ -365,8 +348,6 @@ D.
 
 ### OPCB-221B operation using the Overvis cloud server
 
-<!-- TODO: check -->
-
 OPCB-221B can establish connections to the Overvis cloud server using any interface with Internet
 access. OPCB-221B communicates with the Overvis cloud using one or both of the following protocols:
 
@@ -382,8 +363,6 @@ Connection, configuration, and usage of the product with the Overvis cloud serve
 detail in Appendix E.
 
 ## Setup
-
-<!-- TODO: check -->
 
 The initial setup of the network connections is described in Appendices A and B.
 
@@ -404,8 +383,6 @@ the device, which can only be fixed with a full factory reset.**
 
 ## Automatic firmware update
 
-<!-- TODO: check -->
-
 Device firmware is updated continuously by the manufacturer. By default, the new version is
 installed automatically after the device is powered on or within 24h of operation. Automatic
 updates guarantee the backward compatibility of all OPCB-221B functions. Releases without backward
@@ -416,8 +393,6 @@ each version is available here:
 https://github.com/overvis/opcb-release/tree/OPCB-221-opipc/CHANGELOG.md
 
 ## Manual firmware update and factory reset
-
-<!-- TODO: check -->
 
 The manual update requires a full factory reset by uploading a new firmware image to the SD memory
 card. All current firmware images can be found on the release page:
@@ -442,8 +417,6 @@ The full factory reset procedure is described in Appendix F. In summary:
 
 ## Safety precautions
 
-<!-- TODO: check -->
-
 To ensure the product's safe operation it is strictly forbidden the following:
 
 - to carry out installation works and maintenance without disconnecting the product from the mains;
@@ -461,8 +434,6 @@ During operation and maintenance the regulatory document requirements must be me
 **LIQUID INGRESS ON TERMINALS AND INTERNAL ELEMENTS OF THE DEVICE IS UNACCEPTABLE.**
 
 ## Maintenance
-
-<!-- TODO: check -->
 
 **WHEN MAINTAINING, THE PRODUCT AND DEVICES CONNECTED TO IT MUST BE DISCONNECTED FROM THE POWER
 SUPPLY.**
@@ -482,8 +453,6 @@ Procedure:
 **Do not use abrasives or solvents for cleaning.**
 
 ## Service life and manufacturer warranty
-
-<!-- TODO: check -->
 
 The service lifetime of the product is 10 years. At the end of its service life, please contact the
 manufacturer.
@@ -509,8 +478,6 @@ prevents mechanical damage.
 detail the reason for return in the complaint information field.**
 
 ## Transportation and storage
-
-<!-- TODO: check -->
 
 The product in the original packaging is permitted to be transported and stored at temperatures
 ranging from minus 45 to +60 °C and with a relative humidity of no more than 80%. During
@@ -546,3 +513,6 @@ Technical Support Department: +38(067) 565-37-68
 Date of sale
 
 VN220415
+
+<!-- TODO: check and add all Appendixes -->
+<!-- TODO: All links should lead to docs.overvis.com -->
