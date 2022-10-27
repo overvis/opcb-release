@@ -59,10 +59,10 @@ fi
 echo "Modify parameters in ${con_name}..."
 if [[ $dhcp_mode -eq 0 ]]; then
     # IP manual
-    nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addresses "$ip_cidr" ipv4.gateway $gateway ipv4.dns "$dns1 $dns2"
+    nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addresses "$ip_cidr" ipv4.gateway "$gateway" ipv4.dns "$dns1 $dns2"
 else
     # IP DHCP
-    nmcli connection modify "$con_name" ipv4.method "auto" ipv4.dns "$dns1 $dns2"
+    nmcli connection modify "$con_name" ipv4.method "auto" ipv4.addresses "" ipv4.gateway "" ipv4.dns ""
 fi
 nmcli connection modify "$con_name" connection.interface-name "$netif" ipv6.method "ignore" connection.autoconnect TRUE
 

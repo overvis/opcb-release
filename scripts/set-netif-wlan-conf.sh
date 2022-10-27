@@ -114,9 +114,9 @@ elif [[ $mode -eq 1 ]] && [[ $# -eq 10 ]]; then
             nmcli connection modify "$con_name" remove 802-11-wireless-security
         fi
         if [ $sta_dhcp_mode -eq 0 ]; then
-            nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addr "$sta_ip_cidr" ipv4.gateway $sta_gateway ipv4.dns "$sta_dns1 $sta_dns2"
+            nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addresses "$sta_ip_cidr" ipv4.gateway "$sta_gateway" ipv4.dns "$sta_dns1 $sta_dns2"
         else
-            nmcli connection modify "$con_name" ipv4.method auto ipv4.addr "" ipv4.gateway "" ipv4.dns ""
+            nmcli connection modify "$con_name" ipv4.method "auto" ipv4.addresses "" ipv4.gateway "" ipv4.dns ""
         fi
         nmcli connection modify "$con_name" ipv6.method "ignore"
 

@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security 
 
+## [0.2.9] - 2022-10-27
+### Changed
+- ModbusTCP Server default port changed from 10502 to 502
+
+### Fixed
+- eth0 always set static IP addres if enabled auto IP
+
 ## [0.2.8] - 2022-10-12
 ### Fixed
 - Known bugs
