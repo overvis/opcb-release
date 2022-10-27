@@ -3,9 +3,9 @@ set -euo pipefail
 
 # Script for restore old device access on motherland
 # API:
-# curl https://motherland.overvis.com/api/device-ip/?deviceWgPublicKey=w0369XE5FvLk1yUk2e7ft9BVyxfvGwCsIS9DN7ci/Ro=
+# curl https://motherland.overvis.com/api/vpn-device-ip/?deviceWgPublicKey=w0369XE5FvLk1yUk2e7ft9BVyxfvGwCsIS9DN7ci/Ro=
 #
-# curl http://10.42.0.1/api/device-info/
+# curl http://10.42.0.1/api/vpn-device-info/
 #
 # Argument's:
 # ${1} - deviceWgPrivateKey (Unique device private key)
@@ -100,7 +100,7 @@ echo ""
 echo "2. Get device IP address from the server [ motherland.overvis.com ]..."
 err_code=0
 response=$(
-    curl --silent --show-error --get --data-urlencode "deviceWgPublicKey=${deviceWgPublicKey}" https://motherland.overvis.com/api/device-ip/
+    curl --silent --show-error --get --data-urlencode "deviceWgPublicKey=${deviceWgPublicKey}" https://motherland.overvis.com/api/vpn-device-ip/
 ) || ((err_code=$?))
 if [ $err_code -ne 0 ]; then
     echo "$response"
@@ -148,6 +148,7 @@ echo "Created Wireguard config file -- OK"
 # 5. Start Wireguard interface
 echo ""
 echo "5. Start Wireguard..."
+wg-quick down wg0 || true
 ln -sf /opt/opcb-release/wireguard/wg0.conf /etc/wireguard/wg0.conf
 systemctl restart wg-quick@wg0
 systemctl enable wg-quick@wg0
@@ -165,7 +166,7 @@ echo ""
 echo "7. Get device info from the server [ ${motherlandVpnIpAddress} ]..."
 err_code=0
 response=$(
-    curl --silent --show-error http://${motherlandVpnIpAddress}/api/device-info/
+    curl --silent --show-error http://${motherlandVpnIpAddress}/api/vpn-device-info/
 ) || ((err_code=$?))
 if [ $err_code -ne 0 ]; then
     echo "$response"
@@ -185,17 +186,17 @@ echo "  @ motherlandSshPublicKey [ ${motherlandSshPublicKey} ]"
 pinCode=$(getJsonValue "pinCode" "$response") || ((err_code|=$?))
 echo "  @ pinCode [ ${pinCode} ]"
 #
-internalModelName=$(getJsonValue "internalModelName" "$response") || ((err_code|=$?))
-echo "  @ internalModelName [ ${internalModelName} ]"
-#
-internalSolutionName=$(getJsonValue "internalSolutionName" "$response") || ((err_code|=$?))
-echo "  @ internalSolutionName [ ${internalSolutionName} ]"
+sku=$(getJsonValue "sku" "$response") || ((err_code|=$?))
+echo "  @ sku [ ${sku} ]"
 #
 manufacturerName=$(getJsonValue "manufacturerName" "$response") || ((err_code|=$?))
 echo "  @ manufacturerName [ ${manufacturerName} ]"
 #
 labelName=$(getJsonValue "labelName" "$response") || ((err_code|=$?))
 echo "  @ labelName [ ${labelName} ]"
+#
+labelLink=$(getJsonValue "labelLink" "$response") || ((err_code|=$?))
+echo "  @ labelLink [ ${labelLink} ]"
 #
 bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_code|=$?))
 echo "  @ macAddress [ ${bindMacAddress} ]"
@@ -207,7 +208,7 @@ echo "Parse response -- OK"
 echo ""
 echo "9. Save new WG key file..."
 umask 0077
-echo "${deviceWgPrivateKey}" >"/opt/opcb-release/wireguard/wg-key"
+echo -n "${deviceWgPrivateKey}" >"/opt/opcb-release/wireguard/wg-key"
 echo "Save WG key -- OK"
 
 # 10. Save MAC to the file
@@ -216,34 +217,41 @@ echo "10. Save MAC to the 'dev-bind-mac' file..."
 if [[ $bindMacAddress != $macAddress ]]; then
     $macAddress = $bindMacAddress
     umask 0077
-    echo "${deviceWgPrivateKey}" >"/opt/opcb-release/configs/dev-bind-mac"
+    echo -n "${deviceWgPrivateKey}" >"/opt/opcb-release/configs/dev-bind-mac"
     echo "Save new MAC -- OK"
 else
     echo "Skipped."
 fi
 
-# 11. Add authorized key
+# 11. Save pin code to the file
 echo ""
-echo "11. Add 'motherlandSshPublicKey' to 'authorized_keys' list..."
+echo "11. Save pin code to the 'dev-pin-code' file..."
+umask 0077
+echo -n "${pinCode}" >"/opt/opcb-release/wireguard/dev-pin-code"
+echo "Pin code saved -- OK"
+
+# 12. Save model to the file
+echo ""
+echo "12. Save model to the 'dev-model-name' file..."
+umask 0077
+echo -n "${labelName}" >"/opt/opcb-release/wireguard/dev-model-name"
+echo "Pin code saved -- OK"
+
+# 13. Add authorized key
+echo ""
+echo "13. Add 'motherlandSshPublicKey' to 'authorized_keys' list..."
 umask 0077
 mkdir -p "/root/.ssh"; grep -q -F "${motherlandSshPublicKey}" "/root/.ssh/authorized_keys" 2>/dev/null || echo "${motherlandSshPublicKey}" >>"/root/.ssh/authorized_keys"
 echo "Server key added -- OK"
 
-# 12. Generate image Label
+# 14. Generate image Label
 echo ""
-echo "12. Generate device image..."
+echo "14. Generate device image..."
 umask 0022
 cd "/opt/opcb-release/scripts/manufacturer/"
-bash "./mf-gen-label.sh" "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "/opt/opcb-release/wireguard/dev-label.png"
+bash "./mf-gen-label.sh" "${deviceWgPrivateKey}" "${labelName}" "${macAddress}" "${pinCode}" "${labelLink}" "/opt/opcb-release/wireguard/dev-label.png"
 if [[ $? -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
 echo "Device info image created -- OK"
-
-# 13. Save pin code to the file
-echo ""
-echo "13. Save pin code to the 'dev-pin-code' file..."
-umask 0077
-echo "${pinCode}" >"/opt/opcb-release/wireguard/dev-pin-code"
-echo "Pin code saved -- OK"
 
 # Success
 echo "-----SCRIPT COMPLETE-----"

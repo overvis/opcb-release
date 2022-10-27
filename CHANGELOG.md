@@ -6,22 +6,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- 
-
 ### Changed
-- 
-
 ### Deprecated
-- 
-
 ### Removed
-- 
+### Fixed
+### Security 
+
+## [0.2.9] - 2022-10-27
+### Changed
+- ModbusTCP Server default port changed from 10502 to 502
 
 ### Fixed
-- 
+- eth0 always set static IP addres if enabled auto IP
 
-### Security
-- 
+## [0.2.8] - 2022-10-12
+### Fixed
+- Known bugs
+
+## [0.2.7] - 2022-09-30
+### Added
+- Add Web API GET request 'ex: get_sta.json?ver'.
+- Add Web API response error 403 Forbidden.
+
+### Changed
+- Change interaction 'ovm_bind_server' parameter from file 'UNBIND_ACCOUNT' on USB device.
+
+### Removed
+- Removed Web API 'set_cnfs.json' and 'get_cnfs.json'.
+
+### Fixed
+- Known bugs
+
+
+## [0.2.6] - 2022-09-27
+### Changed
+- Update UI
+
+### Fixed
+- UI Clean texts
+- Known bugs
+
+
+## [0.2.5] - 2022-09-23
+### Fixed
+- Fixed UI some bugs.
+
+
+## [0.2.4] - 2022-09-21
+### Fixed
+- Fixed domain setup.overvis.com in Wi-Fi AP mode.
+- Fixed bugs in module Modbus 485.
+- Fixed other known bugs.
+- Fixed UI.
+
 
 ## [0.2.3] - 2022-09-13
 ### Added
@@ -31,9 +68,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation restructuring (/opt/opcb-release/docs).
 - Modbus constructor (VIU, droped request if field `UID` incorrect).
 
-### Deprecated
--
-
 ### Removed
 - Session support.
 
@@ -42,8 +76,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed some bugs in manufacturer scripts.
 - Fixed disable WiFi
 
-### Security
--
 
 ## [0.0.13] - 2022-05-13
 ### Added

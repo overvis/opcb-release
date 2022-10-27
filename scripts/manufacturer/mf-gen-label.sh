@@ -7,13 +7,24 @@ set -euo pipefail
 # ${2} - Device model name (up to 30 chars)
 # ${3} - Device mac address (00:10:20:30:40:50)
 # ${4} - Device pin code (hjGJgjAS)
-# ${5} - Output image path name (/opt/opcb-release/ui-static/opcb-label.png)
+# ${5} - Device url (https://c.overvis.com/hjGJgjAS)
+# ${6} - Output image path name (/opt/opcb-release/ui-static/opcb-label.png)
+
+function _base64_to_urlencode()
+{
+    str=${1}
+    str=${str//\+/'%2B'}
+    str=${str//\//'%2F'}
+    str=${str//\=/'%3d'}
+    echo -n "$str"
+}
 
 dev_key_priv=${1}
 dev_model=${2}
 dev_mac=${3}
 dev_pin=${4}
-path_img=${5}
+dev_url=${5}
+path_img=${6}
 path_qr="/tmp/opcb-qr.png"
 #dev_key1=${dev_key_priv:0:22}
 #dev_key2=${dev_key_priv:22:22}
@@ -22,8 +33,11 @@ mac5=${dev_mac:12:2}
 mac6=${dev_mac:15:2}
 
 # Generate QR code
-echo "Generate device QR code..."
-qrencode -s 8 -o ${path_qr} "https://c.overvis.com/${dev_pin}/?pk=${dev_key_priv}"
+echo "Prepare data for QR code..."
+data_qr="${dev_url%/}/?pk=$(_base64_to_urlencode ${dev_key_priv})"
+echo "${data_qr}"
+echo "Generate QR code..."
+qrencode -s 8 -o ${path_qr} ${data_qr}
 
 # Create canvas
 echo "Generate device image..."
@@ -41,7 +55,7 @@ conv_param+=(-font DejaVuSans-Bold.ttf -pointsize 58 -draw "text 440,350 \"PIN:\
 conv_param+=(-font DejaVuSans-Bold.ttf -pointsize 36 -draw "text 445,420 \"Wi-Fi:\"" -font DejaVuSansMono-Bold.ttf -pointsize 32 -draw "text 570,420 \"OPCB_${mac4}${mac5}${mac6}\"")
 conv_param+=(-font DejaVuSansMono-Bold.ttf -pointsize 32 -draw "text 570,470 \"(no password)\"")
 conv_param+=(-font DejaVuSansMono-Bold.ttf -pointsize 32 -draw "text 570,520 \"setup.overvis.com\"")
-conv_param+=(-font DejaVuSansMono-Bold.ttf -pointsize 32 -draw "text 40,590 \"https://c.overvis.com/${dev_pin}\"")
+conv_param+=(-font DejaVuSansMono-Bold.ttf -pointsize 32 -draw "text 40,590 \"${dev_url}\"")
 # QR
 conv_param+=(-gravity center -draw "image over -280,52 0,0 \"${path_qr}\"")
 convert "${conv_param[@]}" "${path_img}"

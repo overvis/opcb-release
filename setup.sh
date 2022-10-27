@@ -5,6 +5,23 @@ set -euo pipefail
 echo "# Configure crone update..."
 ln -sf /opt/opcb-release/update.sh /etc/cron.daily/opcb-update
 
+# Install 'fix-mac-addr.sh' script (apply for Banana Pi M4 only)
+echo "# Install 'fix-mac-addr.service'..."
+file1="/opt/opcb-release/services/fix-mac-addr.service"
+file2="/opt/opcb-release/scripts/fix-mac-addr.sh"
+if [[ -f "$file1" ]] && [[ -f "$file2" ]]; then
+    if [[ $(systemctl is-active fix-mac-addr.service) != "active" ]]; then
+        ln -sf "$file1" /etc/systemd/system/fix-mac-addr.service
+        systemctl daemon-reload
+        systemctl start fix-mac-addr.service
+        systemctl enable fix-mac-addr.service
+    else
+        echo "Skip 'fix-mac-addr', already installed."
+    fi
+else
+    echo "Skip 'fix-mac-addr', files  not found."
+fi
+
 # Installing some package's
 # + hostapd
 # + dnsmasq
@@ -51,6 +68,12 @@ else
     systemctl start "networking.service"
 fi
 
+# Configure 'dnsmasq' => '/etc/NetworkManager/dnsmasq.d/local.conf'
+echo "# Configure 'dnsmasq' => '/etc/NetworkManager/dnsmasq.d/local.conf"
+file1='/opt/opcb-release/configs/dnsmasq.conf'
+file2='/etc/NetworkManager/dnsmasq-shared.d/local.conf'
+cp -f "$file1" "$file2"
+
 # Configure 'NetworkManager' => '/etc/NetworkManager/NetworkManager.conf'
 echo "# Configure 'NetworkManager' => '/etc/NetworkManager/NetworkManager.conf'"
 file1="/opt/opcb-release/configs/NetworkManager.conf"
@@ -58,26 +81,10 @@ file2="/etc/NetworkManager/NetworkManager.conf"
 if !(cmp -s "$file1" "$file2"); then
     cp -f "$file2" "${file2}.bak"
     cp -f "$file1" "$file2"
-    systemctl restart NetworkManager.service
+    systemctl restart "NetworkManager.service"
+    systemctl enable "NetworkManager.service"
 else
-    systemctl start NetworkManager.service
-fi
-
-# Install 'fix-mac-addr.sh' script (apply for Banana Pi M4 only)
-echo "# Install 'fix-mac-addr.service'..."
-file1="/opt/opcb-release/services/fix-mac-addr.service"
-file2="/opt/opcb-release/scripts/fix-mac-addr.sh"
-if [[ -f "$file1" ]] && [[ -f "$file2" ]]; then
-    if [[ $(systemctl is-active fix-mac-addr.service) != "active" ]]; then
-        ln -sf "$file1" /etc/systemd/system/fix-mac-addr.service
-        systemctl daemon-reload
-        systemctl start fix-mac-addr.service
-        systemctl enable fix-mac-addr.service
-    else
-        echo "Skip 'fix-mac-addr', already installed."
-    fi
-else
-    echo "Skip 'fix-mac-addr', files  not found."
+    systemctl start "NetworkManager.service"
 fi
 
 # Configure wireguard
@@ -94,7 +101,6 @@ if [[ -f "$file1" ]] && [[ "$(cat $file1)" != "" ]]; then
 else
     echo "Skip but 'wg0.conf' is empty or not found."
 fi
-
 
 # Configure Nginx
 echo "# Configure Nginx..."

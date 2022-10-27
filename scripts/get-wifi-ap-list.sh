@@ -24,10 +24,20 @@ fi
 IFS='
 '
 
-# Scaning wifi AP
+# Scaning wifi AP with timeout 15 seconds
 echo "Scan wifi AP on '$1' begin..."
-wfReport=(`iw dev $1 scan | grep -o 'BSS ..\:..\:..:..\:..\:..\|SSID: .*\|signal\: .* \|freq\: .*'`)
-printf "%s\n" "${wfReport[@]}"
+err_code=0
+wfReport=$(timeout --signal=SIGKILL 15 bash -c "iw dev $1 scan | grep -o 'BSS ..\:..\:..:..\:..\:..\|SSID: .*\|signal\: .* \|freq\: .*'") || ((err_code=$?))
+if [[ $err_code -eq 0 ]]; then
+    printf "%s\n" "${wfReport[@]}"
+
+elif [[ $err_code -eq 124 ]] || [[ $err_code -eq 137 ]]; then
+    echo "Error, script timeout!"
+    exit 1
+else
+    echo "Error, ($err_code) unknown error code!"
+    exit 1
+fi
 
 echo "-----SCRIPT COMPLETE-----"
 

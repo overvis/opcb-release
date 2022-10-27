@@ -59,10 +59,10 @@ fi
 echo "Modify parameters in ${con_name}..."
 if [[ $dhcp_mode -eq 0 ]]; then
     # IP manual
-    nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addresses "$ip_cidr" ipv4.gateway $gateway ipv4.dns "$dns1 $dns2"
+    nmcli connection modify "$con_name" ipv4.method "manual" ipv4.addresses "$ip_cidr" ipv4.gateway "$gateway" ipv4.dns "$dns1 $dns2"
 else
     # IP DHCP
-    nmcli connection modify "$con_name" ipv4.method "auto" ipv4.dns "$dns1 $dns2"
+    nmcli connection modify "$con_name" ipv4.method "auto" ipv4.addresses "" ipv4.gateway "" ipv4.dns ""
 fi
 nmcli connection modify "$con_name" connection.interface-name "$netif" ipv6.method "ignore" connection.autoconnect TRUE
 
@@ -85,7 +85,12 @@ nmcli device set "$netif" autoconnect yes managed yes
 # Just in case, restart wireguard interface
 echo "Restart Wireguard VPN interface..."
 if [[ -f "/etc/wireguard/wg0.conf" ]]; then
-    systemctl restart wg-quick@wg0.service
+    if !(ping -c 1 -w 1 -I "wg0" "10.42.0.1" >/dev/null 2>&1); then
+        systemctl restart wg-quick@wg0.service
+        echo "Restart Wireguard - OK"
+    else
+        echo "Skipped, wg0 ping success!"
+    fi
 else
     echo "Skipped, config file empty or not exist!"
 fi
