@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security 
 
+## [0.2.10] - 2022-12-27
+### Changed
+- Change UI for working in overvis.com
+
+### Fixed
+- Setup.sh crash fixed
+
 ## [0.2.9] - 2022-10-27
 ### Changed
 - ModbusTCP Server default port changed from 10502 to 502

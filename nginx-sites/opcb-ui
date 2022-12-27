@@ -35,7 +35,7 @@ server {
         alias /opt/opcb-release/CHANGELOG.md;
     }
 
-	location /opcb-label.png {
+	location /up_/img/opcb-label.png {
         alias /opt/opcb-release/wireguard/dev-label.png;
     }
 

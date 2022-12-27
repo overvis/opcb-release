@@ -32,7 +32,7 @@ fi
 # + qrencode
 # + imagemagick
 echo "# Installing some package's..."
-apt-get update
+apt-get update --allow-releaseinfo-change
 apt-get install -y hostapd dnsmasq resolvconf network-manager wireguard nginx qrencode imagemagick
 
 # Configure package's
