@@ -37,7 +37,7 @@ apt-get install -y hostapd dnsmasq resolvconf network-manager wireguard nginx qr
 
 # Configure package's
 echo "# Stopping resident package's..."
-declare -a namedaemon=("dhcpcd" "wpa_supplicant" "hostapd" "dnsmasq")
+declare -a namedaemon=("dhcpcd" "hostapd" "dnsmasq")
 for item in ${namedaemon[@]}
 do
     if [[ $(systemctl is-active $item) == "active" ]]; then
