@@ -12,6 +12,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 ### Security 
 
+## [0.2.11] - 2023-01-16
+### Added
+- Modbus VIU: added saved to the file user registers (5500..5999).
+
+
 ## [0.2.10] - 2022-12-27
 ### Changed
 - Change UI for working in overvis.com
