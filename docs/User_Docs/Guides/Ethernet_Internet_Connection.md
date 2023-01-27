@@ -47,6 +47,8 @@ operating system (OS) to communicate directly with a default OPCB-221.
 To configure a network address on a Windows operating system (OS), open the OS network connection
 list. To do this, depending on the OS version, follow the steps below.
 
+<!-- TODO: for windows 11, macOS -->
+
 For Windows 10/7:
 
 1. Log in to the OS under an administrator account

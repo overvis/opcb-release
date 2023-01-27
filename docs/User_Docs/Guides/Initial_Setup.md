@@ -1,6 +1,6 @@
 # Initial Setup
 
-The unconfigured product creates an access point `OPCB_XXXXXX`(where XXXXXX - is the last 6 digits
+The unconfigured product creates an access point `OPCB_XXXXXX`(where XXXXXX - are the last 6 digits
 of the MAC address on the product label) after it is turned on and initialized.
 
 To configure, connect to this access point with the password `12345678`, then enter the address
