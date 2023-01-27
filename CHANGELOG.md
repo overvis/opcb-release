@@ -10,7 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 ### Removed
 ### Fixed
-### Security 
+### Security
+
+## [0.2.13] - 2023-01-27
+### Fixed
+- mf-register-device.sh: add response server to the output if error.
+- UI manufacturer test fixed.
 
 ## [0.2.12] - 2023-01-16
 ### Fixed

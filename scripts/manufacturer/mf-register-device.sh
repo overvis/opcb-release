@@ -161,7 +161,11 @@ echo "  @ labelLink [ ${labelLink} ]"
 bindMacAddress=$(getJsonValue "macAddress" "$response") || ((err_code|=$?))
 echo "  @ macAddress [ ${bindMacAddress} ]"
 #
-if [[ $err_code -ne 0 ]]; then echo "Error, Script terminated by error"; exit 1; fi
+if [[ $err_code -ne 0 ]]; then
+    echo "$response"
+    echo "Error, Script terminated by error"
+    exit 1
+    fi
 echo "Parse response -- OK"
 
 # 4. Create Wireguard config file
