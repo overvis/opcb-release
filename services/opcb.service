@@ -1,5 +1,5 @@
 [Unit]
-Documentation="https://github.com/overvis/opcb-release/tree/opcb-221-opiz"
+Documentation="https://github.com/overvis/opcb-release/"
 Description=OPCB-221 interface daemon
 Wants=network.target
 After=syslog.target network.target
@@ -9,6 +9,7 @@ Type=simple
 User=root
 Group=root
 OOMScoreAdjust=-100
+EnvironmentFile=/opt/opcb-release/configs/opcb.env
 ExecStart=/opt/opcb-release/opcb-221
 TimeoutSec=3
 RestartSec=2

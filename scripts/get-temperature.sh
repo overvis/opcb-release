@@ -1,56 +1,33 @@
 #!/bin/bash
-# Get Core Temperature on Raspbery Pi 3
-# Uses vcgencmd (which should be added to paths!)
+set -euo pipefail
+
+# Get Core Temperature on Raspbery Pi3 / OrangePi / BananaPi
 #
 # Argument's:
 # none
-
-# Trim spaces on the string
-#function trim()
-#{
-#    local trimmed="${1}"
 #
-#    # Strip leading spaces.
-#    while [[ ${trimmed} == ' '* ]]; do
-#       trimmed="${trimmed## }"
-#    done
-#    # Strip trailing spaces.
-#    while [[ ${trimmed} == *' ' ]]; do
-#        trimmed="${trimmed%% }"
-#    done
-#
-#    echo "${trimmed}"
-#}
+# Result:
+# In millidegre * 10 (ex:6065 mC*10)
 
-# parse result from 'vcgencmd measure_temp'
-function parse_result()
-{
+# Obtaining core temperature
+sign=""
+tempr="-9999"
+file="/sys/class/thermal/thermal_zone0/temp";
+if [[ -f "${file}" ]]; then
+    # +60606
+    tempr=$(cat "${file}")
+    # check sign
+    if [[ "${tempr::1}" == "-" ]] || [[ "${tempr::1}" == "+" ]]; then
+        sign=${tempr::1}
+        tempr=${tempr:1}
+    fi
+    tempr=$(($tempr/10))
+else
+    echo "Error, file '${file}' not exist!"
+fi
 
-    while IFS= read -r line; do
-    # test line contents and parse as required
-    [[ "$line" =~ temp ]] && {
-        tempr=${line##*mp=}
-        echo "${tempr}"   # out
-    }
-    
-    done
-}
+echo "-----SCRIPT COMPLETE-----"
 
-# Check root permission
-#if [ "$(id -u)" != "0" ]; then
-#    echo "Error, this script must be run as root"
-#    exit 1
-#fi
+echo "${sign}${tempr}"
+exit 0
 
-# Check argument
-#if [ $# -eq 1 ] && [ "${1}" != "" ]; then
-
-    # Obtaining core temperature
-    # vcgencmd measure_temp | parse_result
-    echo "0"
-    exit 0
-
-#else
-#    echo "Error, invalid argument"
-#    exit 2
-#fi

@@ -31,6 +31,18 @@ server {
 		try_files $uri $uri/ =404;
 	}
 
+	location /CHANGELOG.md {
+        alias /opt/opcb-release/CHANGELOG.md;
+    }
+
+	location /up_/img/opcb-label.png {
+        alias /opt/opcb-release/wireguard/dev-label.png;
+    }
+
+	location /docs/ {
+        alias /opt/opcb-release/docs/;
+    }
+
     location /api/ {
 		proxy_pass http://localhost:8502/api/;
 		proxy_redirect off;
@@ -42,6 +54,8 @@ server {
 		add_header P3P 'CP="ALL DSP COR PSAa PSDa OUR NOR ONL UNI COM NAV"';
 		add_header Access-Control-Allow-Origin *;
 	}
+
+
 	# pass PHP scripts to FastCGI server
 	#
 	#location ~ \.php$ {
@@ -60,4 +74,3 @@ server {
 	#	deny all;
 	#}
 }
-

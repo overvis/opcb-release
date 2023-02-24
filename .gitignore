@@ -1,4 +1,8 @@
+opcb-mbreg.conf
 opcb-user.conf
-wireguard/ip-addr
-wireguard/wgcli-key
-wireguard/wgcli-key.pub
+configs/dev-bind-mac
+wireguard/dev-label.png
+wireguard/dev-pin-code
+wireguard/dev-model-name
+wireguard/wg-key
+wireguard/wg0.conf

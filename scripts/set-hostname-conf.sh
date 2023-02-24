@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # Set hostname parameters to the Raspbery Pi 3
 # Use root permission !!!
@@ -10,23 +11,37 @@
 #
 # ${1} - host name (ex: 'RaspberryPi')
 #
-# For translate error msg, use prefix 'Error, ...'
+
+# Check argument
+if [[ $# -ne 1 ]] || [[ "$1" == "" ]]; then
+    echo "Error, invalid or not arguments ($@)."
+    exit 1
+fi
 
 # Check root permission
-if [ "$(id -u)" != "0" ]; then
+if [[ "$(id -u)" != "0" ]]; then
     echo "Error, this script must be run as root."
     exit 1
 fi
 
 # Set new host name
-new_hostname=${1}
+new_hostname=$1
 old_hostname=$(cat /etc/hostname)
-if [ "${new_hostname}" != "" ] && [ "${old_hostname}" != "" ]; then
-    sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hostname"
-    sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hosts"
+
+if [[ "${new_hostname}" != "${old_hostname}" ]]; then
+    
+    if [[ "${old_hostname}" != "" ]]; then
+        sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hostname"
+        sed -i "s/${old_hostname}/${new_hostname}/g" "/etc/hosts"
+    else
+        echo "${new_hostname}" | tee "/etc/hostname"
+        echo "127.0.0.1       ${new_hostname}" | tee --append "/etc/hosts"
+    fi
     hostname ${new_hostname}
 else
-    echo "Error, new/old hostname is empty."
+    echo "New hostname is already!"
 fi
+
+echo "-----SCRIPT COMPLETE-----"
 
 exit 0
