@@ -1,0 +1,36 @@
+{
+  "name": "@overvis/opcb-runner",
+  "version": "0.0.1",
+  "license": "private",
+  "private": true,
+  "main": "dist/index",
+  "types": "dist/index",
+  "bin": "dist/start",
+  "files": [
+    "dist/**/*",
+    "runner-config.schema.json"
+  ],
+  "dependencies": {
+    "@overvis/opcb-api": "*",
+    "@overvis/opcb-config-manager": "*",
+    "@overvis/opcb-linux-operator": "*",
+    "@overvis/opcb-virtual-device": "*",
+    "@overvis/server-tools": "*",
+    "colorette": "^2.0.19",
+    "pino": "^8.10.0",
+    "pino-abstract-transport": "^1.0.0",
+    "pino-pretty": "^9.2.0",
+    "tslib": "^2.5.0"
+  },
+  "devDependencies": {
+    "@overvis/schema-compiler": "*",
+    "@types/node": "^18.13.0",
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "rm -rf dist && rm tsconfig.tsbuildinfo || true",
+    "start": "yarn build && node --enable-source-maps dist/start",
+    "compile-schemas": "yarn schema-compiler -p ../schema-compiler/.prettierrc -o ./src/config.d.ts ./runner-config.schema.json"
+  }
+}

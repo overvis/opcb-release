@@ -1,0 +1,48 @@
+{
+    "type": "object",
+    "required": [],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "sentry": {
+            "type": "object",
+            "required": ["dsn", "authToken"],
+            "properties": {
+                "dsn": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "authToken": { "type": "string" },
+                "environment": {
+                    "type": "string",
+                    "enum": ["release", "development"]
+                }
+            },
+            "additionalProperties": false
+        },
+        "defaultLogLevel": {
+            "type": "string",
+            "enum": ["trace", "debug", "info", "warn", "error"]
+        },
+        "paths": {
+            "type": "object",
+            "properties": {
+                "manufacturerFile": { "type": "string" },
+                "configFile": { "type": "string" },
+                "factoryConfigFile": { "type": "string" },
+                "opcbRs485TtyOperatorBin": { "type": "string" },
+                "opcbModbusTcpClientBin": { "type": "string" },
+                "opcbModbusTcpServerBin": { "type": "string" },
+                "opcbOvervisBcClientBin": { "type": "string" },
+                "redisBinary": { "type": "string" },
+                "redisConfig": { "type": "string" },
+                "redisSocket": { "type": "string" },
+                "staticFilesDir": { "type": "string" },
+                "sqliteDbPath": { "type": "string" },
+                "sqliteLibDir": { "type": "string" },
+                "dbMigrationsDir": { "type": "string" }
+            }
+        }
+    }
+}
