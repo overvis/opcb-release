@@ -19,7 +19,39 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
-## [0.3.0] - 2023-05-15
+## [0.3.1] - 2023-06-19
+
+### Added
+
+- _UI:_ Redirection to the Quick Setup interface when accessing OPCB through Wi-Fi Access Point.
+- _UI:_ Additional information in the connection loss error messages.
+
+### Changed
+
+- _UI:_ Updated Next.JS to the latest version.
+- _UI:_ Updated Mantine UI to the latest version.
+- _UI:_ General clean-up of the UI code.
+- _Runtime:_ Automatically installing `iputils-ping` package instead of the default ping package.
+  Since this package can receive the delay as a fractional value.
+- _Runtime:_ Additional logging for debugging.
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+- _UI:_ Copying Modbus log content to clipboard was broken.
+- _Runtime:_ Error while saving factory configuration.
+- _Runtime:_ Incorrect network mask was set for AP/station wifi which prevented the assignment of
+  the IP address for the connected clients.
+- _UI:_ Manufacturing interface displayed the incorrect message about the device being already
+  registered for the unregistered device.
+- _UI:_ Properly displaying errors on manufacturer's pages: restore / register.
+
+### Security
+
+## [0.3.0] - 2023-06-14
 
 This is the initial version of the OPCB firmware. Version 0.2.0 was a pure C-based code that was
 rewritten from scratch in 0.3.0 release.
@@ -42,3 +74,4 @@ OPCB package in its current version supports the following:
 ---
 
 [0.3.0]: https://github.com/overvis/opcb-release/tree/opcb/0.3.0
+[0.3.1]: https://github.com/overvis/opcb-release/tree/opcb/0.3.1

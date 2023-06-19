@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 // eslint-disable-next-line no-console
-console.log(`${new Date().toISOString()} Intializing imports and logging...`);
+console.log(`${new Date().toISOString()} Initializing imports and logging...`);
 const server_tools_1 = require("@overvis/server-tools");
 const pino_1 = tslib_1.__importDefault(require("pino"));
 const opcbConfigManager = tslib_1.__importStar(require("@overvis/opcb-config-manager"));
@@ -79,7 +79,7 @@ async function run() {
         subprocesses.push(monitorProcess(await startBinary((_u = runnerConfig.paths) === null || _u === void 0 ? void 0 : _u.opcbModbusTcpServerBin, binArgs), logger.child({ module: "MTS" })));
     }
     if ((_v = runnerConfig.paths) === null || _v === void 0 ? void 0 : _v.opcbOvervisBcClientBin) {
-        subprocesses.push(monitorProcess(await startBinary((_w = runnerConfig.paths) === null || _w === void 0 ? void 0 : _w.opcbOvervisBcClientBin, binArgs), logger.child({ module: "OBC" })));
+        subprocesses.push(monitorProcess(await startBinary((_w = runnerConfig.paths) === null || _w === void 0 ? void 0 : _w.opcbOvervisBcClientBin, binArgs), logger.child({ module: "ORC" })));
     }
     // monitor all modules as promises, exit on failure
     await Promise.race(subprocesses);
