@@ -19,6 +19,29 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.2] - 2023-06-20
+
+### Changed
+
+- _UI:_ Device name is now saved on input focus lose.
+
+### Fixed
+
+- _Runtime:_ MAC was not updating during runtime, only after restart.
+- _Runtime:_ Runtime failed on start without internet connection, because `git fetch` command
+  exited with error status code.
+- _Runtime:_ Default config file should not contain any RS-485 connections.
+- _UI:_ Bug that was constantly refreshing error display component during the connection loss.
+- _UI:_ Quick setup was adding the `ttyS0` RS-485 device instead of `ttyUSB0`.
+- _UI:_ Expecting `Failed to fetch` error on all fetch requests.
+- _UI:_ Wi-Fi password was not sent correctly to backend.
+- _UI:_ Increased timeout on Wi-Fi settings saving.
+- _UI:_ All dropdowns in forms were cut off by modal windows.
+- _UI:_ Quick setup page was sending multiple slow requests, merged them into one.
+- _UI:_ Increased timeout for all settings change requests.
+- _Runtime:_ Runtime failed on start without internet connection, because wireguard service
+  couldn't be started.
+
 ## [0.3.1] - 2023-06-19
 
 ### Added
@@ -35,10 +58,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Since this package can receive the delay as a fractional value.
 - _Runtime:_ Additional logging for debugging.
 
-### Deprecated
-
-### Removed
-
 ### Fixed
 
 - _UI:_ Copying Modbus log content to clipboard was broken.
@@ -48,8 +67,6 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - _UI:_ Manufacturing interface displayed the incorrect message about the device being already
   registered for the unregistered device.
 - _UI:_ Properly displaying errors on manufacturer's pages: restore / register.
-
-### Security
 
 ## [0.3.0] - 2023-06-14
 
@@ -75,3 +92,4 @@ OPCB package in its current version supports the following:
 
 [0.3.0]: https://github.com/overvis/opcb-release/tree/opcb/0.3.0
 [0.3.1]: https://github.com/overvis/opcb-release/tree/opcb/0.3.1
+[0.3.2]: https://github.com/overvis/opcb-release/tree/opcb/0.3.2
