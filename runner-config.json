@@ -1,11 +1,11 @@
 {
     "$schema": "opcb-runner/runner-config.schema.json",
-    "defaultLogLevel": "info",
+    "logLevel": "info",
     "paths": {
         "opcbRs485TtyOperatorBin": "../bin/opcb-rs485-tty-operator",
         "opcbModbusTcpClientBin": "../bin/opcb-modbus-tcp-client",
         "opcbModbusTcpServerBin": "../bin/opcb-modbus-tcp-server",
-        "opcbOvervisBcClientBin": "../bin/opcb-overvis-rc-client",
+        "opcbOvervisRcClientBin": "../bin/opcb-overvis-rc-client",
         "redisBinary": "../bin/redis-server",
         "redisConfig": "../redis.conf",
         "configFile": "../user/config.json",
@@ -15,6 +15,11 @@
         "dbMigrationsDir": "node_modules/@overvis/opcb-config-manager/db-migrations",
         "sqliteDbPath": "../user/opcb.sqlite3",
         "sqliteLibDir": "../bin",
-        "staticFilesDir": "../http-static"
+        "staticFilesDir": "../http-static",
+        "labelFile": "../user/label.png",
+        "changelogFile": "../CHANGELOG.md"
+    },
+    "sentry": {
+        "dsn": "https://183bc003e6564b428af428e5ed98c72c@o279825.ingest.sentry.io/4505284224024576"
     }
 }

@@ -19,6 +19,31 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.3] - 2023-06-28
+
+### Added
+
+- _Runtime:_ Reporting runtime errors to Sentry.
+- _Runtime:_ Storing last executed runtime version to config file.
+- _Runtime:_ Subsystem to automatically migrate config and filesystem changes on start.
+- _UI:_ Added label display on the manufacturing page.
+- _Runtime:_ RS-485 time metrics logging and performance optimisations.
+- _UI_: Request generator form now restrict incorrect numbers on input.
+
+### Changed
+
+- _Runtime:_ Reworked `opcb-runner` config schema. Specified defaults.
+- _Runtime:_ Moved device label image to the user directory.
+
+### Fixed
+
+- _Runtime:_ Fixed an issue where the RS-485 configuration was not fully synchronized.
+- _UI:_ UI was incorrectly displaying restart/reboot procedure counters.
+- _UI:_ Quick setup page was not redirecting to dashboard after submitting.
+- _UI:_ Log output optimizations. Temporarily restricted logs length to 1000 items, until proper
+  performance fix is implemented.
+- _UI:_ Hex switch in request generator wasn't working correctly.
+
 ## [0.3.2] - 2023-06-20
 
 ### Changed
@@ -93,3 +118,4 @@ OPCB package in its current version supports the following:
 [0.3.0]: https://github.com/overvis/opcb-release/tree/opcb/0.3.0
 [0.3.1]: https://github.com/overvis/opcb-release/tree/opcb/0.3.1
 [0.3.2]: https://github.com/overvis/opcb-release/tree/opcb/0.3.2
+[0.3.3]: https://github.com/overvis/opcb-release/tree/opcb/0.3.3

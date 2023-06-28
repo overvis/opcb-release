@@ -1,47 +1,84 @@
 {
     "type": "object",
-    "required": [],
+    "required": ["logLevel", "paths"],
+    "additionalProperties": false,
     "properties": {
         "$schema": {
             "type": "string"
         },
         "sentry": {
             "type": "object",
-            "required": ["dsn", "authToken"],
+            "required": ["dsn"],
             "properties": {
                 "dsn": {
                     "type": "string",
                     "format": "uri"
-                },
-                "authToken": { "type": "string" },
-                "environment": {
-                    "type": "string",
-                    "enum": ["release", "development"]
                 }
             },
             "additionalProperties": false
         },
-        "defaultLogLevel": {
+        "logLevel": {
             "type": "string",
-            "enum": ["trace", "debug", "info", "warn", "error"]
+            "enum": ["trace", "debug", "info", "warn", "error"],
+            "default": "info"
         },
         "paths": {
             "type": "object",
+            "required": [
+                "manufacturerFile",
+                "configFile",
+                "factoryConfigFile",
+                "redisBinary",
+                "redisConfig",
+                "redisSocket",
+                "staticFilesDir",
+                "sqliteDbPath",
+                "sqliteLibDir",
+                "dbMigrationsDir",
+                "labelFile",
+                "changelogFile"
+            ],
             "properties": {
-                "manufacturerFile": { "type": "string" },
-                "configFile": { "type": "string" },
-                "factoryConfigFile": { "type": "string" },
-                "opcbRs485TtyOperatorBin": { "type": "string" },
-                "opcbModbusTcpClientBin": { "type": "string" },
-                "opcbModbusTcpServerBin": { "type": "string" },
-                "opcbOvervisBcClientBin": { "type": "string" },
-                "redisBinary": { "type": "string" },
-                "redisConfig": { "type": "string" },
-                "redisSocket": { "type": "string" },
-                "staticFilesDir": { "type": "string" },
-                "sqliteDbPath": { "type": "string" },
-                "sqliteLibDir": { "type": "string" },
-                "dbMigrationsDir": { "type": "string" }
+                "manufacturerFile": {
+                    "type": "string",
+                    "default": "../MANUFACTURER_LICENSE"
+                },
+                "configFile": { "type": "string", "default": "../user/config.json" },
+                "factoryConfigFile": {
+                    "type": "string",
+                    "default": "../user/factory-config.json"
+                },
+                "opcbRs485TtyOperatorBin": {
+                    "type": "string",
+                    "default": "../bin/opcb-rs485-tty-operator"
+                },
+                "opcbModbusTcpClientBin": {
+                    "type": "string",
+                    "default": "../bin/opcb-modbus-tcp-client"
+                },
+                "opcbModbusTcpServerBin": {
+                    "type": "string",
+                    "default": "../bin/opcb-modbus-tcp-server"
+                },
+                "opcbOvervisRcClientBin": {
+                    "type": "string",
+                    "default": "../bin/opcb-overvis-rc-client"
+                },
+                "redisBinary": { "type": "string", "default": "../bin/redis-server" },
+                "redisConfig": { "type": "string", "default": "../redis.conf" },
+                "redisSocket": { "type": "string", "default": "/tmp/opcb-redis.sock" },
+                "staticFilesDir": { "type": "string", "default": "../http-static" },
+                "sqliteDbPath": {
+                    "type": "string",
+                    "default": "../user/opcb.sqlite3"
+                },
+                "sqliteLibDir": { "type": "string", "default": "../bin" },
+                "dbMigrationsDir": {
+                    "type": "string",
+                    "default": "node_modules/@overvis/opcb-config-manager/db-migrations"
+                },
+                "labelFile": { "type": "string", "default": "../user/label.png" },
+                "changelogFile": { "type": "string", "default": "../CHANGELOG.md" }
             }
         }
     }

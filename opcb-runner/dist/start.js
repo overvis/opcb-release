@@ -4,82 +4,82 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 // eslint-disable-next-line no-console
 console.log(`${new Date().toISOString()} Initializing imports and logging...`);
-const server_tools_1 = require("@overvis/server-tools");
-const pino_1 = tslib_1.__importDefault(require("pino"));
-const opcbConfigManager = tslib_1.__importStar(require("@overvis/opcb-config-manager"));
 const opcbApi = tslib_1.__importStar(require("@overvis/opcb-api"));
+const opcbConfigManager = tslib_1.__importStar(require("@overvis/opcb-config-manager"));
 const opcbLinuxOperator = tslib_1.__importStar(require("@overvis/opcb-linux-operator"));
 const opcbVirtualDevice = tslib_1.__importStar(require("@overvis/opcb-virtual-device"));
+const server_tools_1 = require("@overvis/server-tools");
 const childProcess = tslib_1.__importStar(require("child_process"));
 const path_1 = tslib_1.__importDefault(require("path"));
+const pino_1 = tslib_1.__importDefault(require("pino"));
 let logger;
 async function run() {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u, _v, _w;
+    var _a;
     // read runner config
     const runnerConfigPath = process.argv[2];
     if (!runnerConfigPath) {
         throw new Error("Runner config path was not specified. Specify it as the command line argument.");
     }
-    const runnerConfig = (0, server_tools_1.loadConfig)(runnerConfigPath, `./runner-config.schema.json`);
+    const config = (0, server_tools_1.loadConfig)(runnerConfigPath, `./runner-config.schema.json`);
     // TODO_FUTURE: initialize sentry
     // initialize logging
-    const logLevel = runnerConfig.defaultLogLevel || "info";
     logger = (0, pino_1.default)({
-        level: logLevel,
+        level: config.logLevel,
         transport: {
             target: "./pino-pretty-transport",
         },
     });
     logger.info("Starting OPCB runtime...");
+    // init sentry
+    (0, server_tools_1.initSentry)((_a = config.sentry) === null || _a === void 0 ? void 0 : _a.dsn);
     const subprocesses = [];
     // start redis if needed
-    const redisBin = ((_a = runnerConfig.paths) === null || _a === void 0 ? void 0 : _a.redisBinary) || "../bin/redis-server";
-    const args = ((_b = runnerConfig.paths) === null || _b === void 0 ? void 0 : _b.redisConfig) ? [(_c = runnerConfig.paths) === null || _c === void 0 ? void 0 : _c.redisConfig] : [];
-    logger.info(`Starting Redis server: ${redisBin} ${args.join(" ")}`);
-    subprocesses.push(monitorProcess(await startBinary(redisBin, args), logger.child({ module: "RDS" })));
+    const redisBin = config.paths.redisBinary;
+    const redisArgs = [config.paths.redisConfig];
+    logger.info(`Starting Redis server: ${redisBin} ${redisArgs.join(" ")}`);
+    subprocesses.push(monitorProcess(await startBinary(redisBin, redisArgs), logger.child({ module: "RDS" })));
     // start ts modules
-    const redisSocket = ((_d = runnerConfig.paths) === null || _d === void 0 ? void 0 : _d.redisSocket) || "/tmp/opcb-redis.sock";
-    const manufacturerFilePath = ((_e = runnerConfig.paths) === null || _e === void 0 ? void 0 : _e.manufacturerFile) || "/MANUFACTURER_LICENSE";
-    let staticFilesDir = ((_f = runnerConfig.paths) === null || _f === void 0 ? void 0 : _f.staticFilesDir) || process.cwd() + "/static";
-    if (staticFilesDir.startsWith(".")) {
-        staticFilesDir = path_1.default.normalize(`${process.cwd()}/${staticFilesDir}`);
-    }
+    const redisSocket = config.paths.redisSocket;
     subprocesses.push((await opcbConfigManager.run(logger.child({ module: "CFG" }), {
         redisConnectString: redisSocket,
-        manufacturerFile: { path: manufacturerFilePath },
-        configFile: { path: ((_g = runnerConfig.paths) === null || _g === void 0 ? void 0 : _g.configFile) || "../config.json" },
-        factoryConfigFile: {
-            path: ((_h = runnerConfig.paths) === null || _h === void 0 ? void 0 : _h.factoryConfigFile) || "../factory-config.json",
+        manufacturerFile: { path: config.paths.manufacturerFile },
+        configFile: {
+            path: config.paths.configFile,
         },
-        sqliteDbPath: ((_j = runnerConfig.paths) === null || _j === void 0 ? void 0 : _j.sqliteDbPath) || "../opcb-db.sqlite",
-        sqliteLibDir: ((_k = runnerConfig.paths) === null || _k === void 0 ? void 0 : _k.sqliteLibDir) || "../sqlite",
-        dbMigrationsDir: ((_l = runnerConfig.paths) === null || _l === void 0 ? void 0 : _l.dbMigrationsDir) || "../db-migrations",
+        factoryConfigFile: {
+            path: config.paths.factoryConfigFile,
+        },
+        sqliteDbPath: config.paths.sqliteDbPath,
+        sqliteLibDir: config.paths.sqliteLibDir,
+        dbMigrationsDir: config.paths.dbMigrationsDir,
     }))[0]);
     subprocesses.push(opcbApi.run(logger.child({ module: "API" }), { redisSocket }));
     subprocesses.push(opcbLinuxOperator.run(logger.child({ module: "LIN" }), {
         redisSocket,
-        staticFilesDir,
-        manufacturerFilePath,
+        staticFilesDir: absolutePath(config.paths.staticFilesDir),
+        manufacturerFile: config.paths.manufacturerFile,
+        changelogFile: absolutePath(config.paths.changelogFile),
+        labelFile: absolutePath(config.paths.labelFile),
     }));
     subprocesses.push((await opcbVirtualDevice.run(logger.child({ module: "VIR" }), {
         redisSocket,
-        sqliteDbPath: ((_m = runnerConfig.paths) === null || _m === void 0 ? void 0 : _m.sqliteDbPath) || "../opcb-db.sqlite",
-        sqliteLibDir: ((_o = runnerConfig.paths) === null || _o === void 0 ? void 0 : _o.sqliteLibDir) || "../sqlite",
+        sqliteDbPath: config.paths.sqliteDbPath,
+        sqliteLibDir: config.paths.sqliteLibDir,
     }))[0]);
     // start binary modules
     // TODO_FUTURE: design args
-    const binArgs = [logLevel, redisSocket];
-    if ((_p = runnerConfig.paths) === null || _p === void 0 ? void 0 : _p.opcbRs485TtyOperatorBin) {
-        subprocesses.push(monitorProcess(await startBinary((_q = runnerConfig.paths) === null || _q === void 0 ? void 0 : _q.opcbRs485TtyOperatorBin, binArgs), logger.child({ module: "RSO" })));
+    const binArgs = [config.logLevel, redisSocket];
+    if (config.paths.opcbRs485TtyOperatorBin) {
+        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbRs485TtyOperatorBin, binArgs), logger.child({ module: "RSO" })));
     }
-    if ((_r = runnerConfig.paths) === null || _r === void 0 ? void 0 : _r.opcbModbusTcpClientBin) {
-        subprocesses.push(monitorProcess(await startBinary((_s = runnerConfig.paths) === null || _s === void 0 ? void 0 : _s.opcbModbusTcpClientBin, binArgs), logger.child({ module: "MTC" })));
+    if (config.paths.opcbModbusTcpClientBin) {
+        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbModbusTcpClientBin, binArgs), logger.child({ module: "MTC" })));
     }
-    if ((_t = runnerConfig.paths) === null || _t === void 0 ? void 0 : _t.opcbModbusTcpServerBin) {
-        subprocesses.push(monitorProcess(await startBinary((_u = runnerConfig.paths) === null || _u === void 0 ? void 0 : _u.opcbModbusTcpServerBin, binArgs), logger.child({ module: "MTS" })));
+    if (config.paths.opcbModbusTcpServerBin) {
+        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbModbusTcpServerBin, binArgs), logger.child({ module: "MTS" })));
     }
-    if ((_v = runnerConfig.paths) === null || _v === void 0 ? void 0 : _v.opcbOvervisBcClientBin) {
-        subprocesses.push(monitorProcess(await startBinary((_w = runnerConfig.paths) === null || _w === void 0 ? void 0 : _w.opcbOvervisBcClientBin, binArgs), logger.child({ module: "ORC" })));
+    if (config.paths.opcbOvervisRcClientBin) {
+        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbOvervisRcClientBin, binArgs), logger.child({ module: "ORC" })));
     }
     // monitor all modules as promises, exit on failure
     await Promise.race(subprocesses);
@@ -161,7 +161,14 @@ run().catch((e) => {
         // eslint-disable-next-line no-console
         console.error(e);
     }
-    // TODO_FUTURE: sentry
+    logger.info("Reporting error to sentry...");
+    (0, server_tools_1.reportErrorToSentry)(e);
     setTimeout(() => process.exit(1), 1000);
 });
+function absolutePath(pathStr) {
+    if (!pathStr.startsWith("/")) {
+        return path_1.default.normalize(`${process.cwd()}/${pathStr}`);
+    }
+    return pathStr;
+}
 //# sourceMappingURL=start.js.map
