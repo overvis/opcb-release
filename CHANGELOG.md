@@ -19,6 +19,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.4] - 2023-07-11
+
+### Added
+
+- _UI_: Added ability to unbind device from the cloud account.
+- _Runtime:_ Communications API for OCP servers integration.
+
+### Changed
+
+- _Runtime:_ Vaious performance and speed optimisations in RS-485 module.
+- _Runtime:_ Performance and speed optimizations in Modbus TCP modules.
+- _UI:_ New RS-485 connection is set to "RTU Master" by default.
+- _UI_: Log output performance optimization.
+
+### Fixed
+
+- _Runtime:_ Some Modbus OPCB registers were incorrectly returning errors on read.
+- _Runtime:_ Restore identity sometimes failed with timeout error. Increased timeout.
+- _UI_: Fixed page footer styling.
+
 ## [0.3.3] - 2023-06-28
 
 ### Added
@@ -119,3 +139,4 @@ OPCB package in its current version supports the following:
 [0.3.1]: https://github.com/overvis/opcb-release/tree/opcb/0.3.1
 [0.3.2]: https://github.com/overvis/opcb-release/tree/opcb/0.3.2
 [0.3.3]: https://github.com/overvis/opcb-release/tree/opcb/0.3.3
+[0.3.4]: https://github.com/overvis/opcb-release/tree/opcb/0.3.4
