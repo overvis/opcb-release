@@ -12,6 +12,7 @@ const server_tools_1 = require("@overvis/server-tools");
 const childProcess = tslib_1.__importStar(require("child_process"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const pino_1 = tslib_1.__importDefault(require("pino"));
+const config_1 = require("./config");
 let logger;
 async function run() {
     var _a;
@@ -20,7 +21,7 @@ async function run() {
     if (!runnerConfigPath) {
         throw new Error("Runner config path was not specified. Specify it as the command line argument.");
     }
-    const config = (0, server_tools_1.loadConfig)(runnerConfigPath, `./runner-config.schema.json`);
+    const config = (0, server_tools_1.loadConfig)(runnerConfigPath, config_1.CONFIG_SCHEMA);
     // TODO_FUTURE: initialize sentry
     // initialize logging
     logger = (0, pino_1.default)({
@@ -57,7 +58,7 @@ async function run() {
     subprocesses.push(opcbLinuxOperator.run(logger.child({ module: "LIN" }), {
         redisSocket,
         staticFilesDir: absolutePath(config.paths.staticFilesDir),
-        manufacturerFile: config.paths.manufacturerFile,
+        manufacturerFile: absolutePath(config.paths.manufacturerFile),
         changelogFile: absolutePath(config.paths.changelogFile),
         labelFile: absolutePath(config.paths.labelFile),
     }));

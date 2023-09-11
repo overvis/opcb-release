@@ -1,4 +1,4 @@
-# OPCB runtime
+# OPCB Runtime
 
 OPCB is a device that functions as MODBUS RTU <> MODBUS TCP converter. It connects the industrial
 equipment (RS-485) to the internet (TCP/IP).
@@ -87,7 +87,7 @@ Required hardware:
 - Single board computer.
   [Orange Pi PC Plus](https://www.orangepi.com/index.php?route=product/product&product_id=866) is
   recommended for now.
-- Micro SD card, 8GB or more.
+- Micro SD card, 4GB or more.
 - High-quality 2.5A micro USB power supply
 - Any USB<>RS485 converter (e.g.,
   <https://www.amazon.com/Industrial-USB-RS485-Converter-Communication/dp/B081MB6PN2>)
@@ -120,7 +120,7 @@ Enter the password if requested.
 After this command completes, OPCB services should be installed and running. Device's Wi-Fi will be
 switched to Access Point mode with the name `OPCB_XXXXXX` where XXXXXX is the last characters of
 the device's MAC address. By connecting to this Wi-Fi (without password) user can access OPCB
-web-interface by using the address: http://setup.overvis.com/
+web-interface by using the address: http://setup.overvis.com/ or http://192.168.4.1/
 
 _TODO: web interface screenshot._
 
@@ -162,7 +162,7 @@ interface page or can be accessed through the API.
 
 ## User documentation
 
-See [OPCB User Documentation.](./docs/README.md)
+See [OPCB User Documentation.](./docs/OPCB/README.md)
 
 ## Contributing
 

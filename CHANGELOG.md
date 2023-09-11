@@ -19,6 +19,43 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.5] - 2023-09-11
+
+### Added
+
+- _Runtime:_ New command file: insert USB stick with the file named `SSH_AUTH_KEY` and a public SSH
+  key inside it, this file will be added to `/root/.ssh/authorized_keys` on the device.
+- _Runtime:_ New command file: insert USB stick with the empty file named `OPCB_INFO` and wait 10
+  seconds. OPCB runtime will write basic information in that file in the JSON format. This
+  information includes the device's IP address in the local network.
+- _UI:_ After successful background update, notification is displayed after the next user login.
+- _UI:_ Disablable auto-scrolling in Modbus debug logs.
+- _Runtime:_ Automated manufacturing testing scaffolding and UI.
+
+### Changed
+
+- _Runtime:_ Wi-Fi connection is established on the background, to reduce the time of device's
+  settings changing procedure.
+- _UI:_ Removed localhost IP address from the default value in the new Modbus TCP client creation
+  form.
+- _Runtime:_ Reordering in OPCB Modbus registers list, also some value multipliers were changed.
+  OPCB Modbus registers table is still not frozen, and will probably be changed in the future
+  updates.
+- _Runtime:_ Code for the proxying the interface through the Overvis server, for the remote access
+  from Overvis Cloud.
+- _UI:_ Increased all requests timeouts to improve the usability for environment with slow network
+  connections.
+
+### Fixed
+
+- _Runtime:_ Several small fixes in Linux management procedures.
+- _UI:_ Correctly displaying the debug log output for the case when several Modbus TCP requests are
+  packed into one TCP packet.
+- _UI:_ Automatically reconnecting debug log Websocket on disconnection, displaying socket
+  connection/disconnection messages in log.
+- _UI:_ Fixed the link to Overvis network for the device binded to the cloud.
+- _Runtime:_ RS-485 interfaces restarted on any settings change.
+
 ## [0.3.4] - 2023-07-11
 
 ### Added
@@ -139,4 +176,4 @@ OPCB package in its current version supports the following:
 [0.3.1]: https://github.com/overvis/opcb-release/tree/opcb/0.3.1
 [0.3.2]: https://github.com/overvis/opcb-release/tree/opcb/0.3.2
 [0.3.3]: https://github.com/overvis/opcb-release/tree/opcb/0.3.3
-[0.3.4]: https://github.com/overvis/opcb-release/tree/opcb/0.3.4
+[0.3.4]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.4

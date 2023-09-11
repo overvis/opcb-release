@@ -16,6 +16,7 @@
     "@overvis/opcb-linux-operator": "*",
     "@overvis/opcb-virtual-device": "*",
     "@overvis/server-tools": "*",
+    "@sinclair/typebox": "^0.25.24",
     "colorette": "^2.0.19",
     "pino": "^8.10.0",
     "pino-abstract-transport": "^1.0.0",
@@ -23,7 +24,6 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@overvis/schema-compiler": "*",
     "@types/node": "^18.13.0",
     "typescript": "^4.9.5"
   },
@@ -31,6 +31,6 @@
     "build": "tsc -b",
     "clean": "rm -rf dist && rm tsconfig.tsbuildinfo || true",
     "start": "yarn build && node --enable-source-maps dist/start",
-    "compile-schemas": "yarn schema-compiler -p ../schema-compiler/.prettierrc -o ./src/config.d.ts ./runner-config.schema.json"
+    "save-schemas": "yarn build && node dist/save-schemas"
   }
 }

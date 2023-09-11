@@ -1,29 +1,116 @@
 {
-    "type": "object",
-    "required": ["logLevel", "paths"],
     "additionalProperties": false,
+    "type": "object",
     "properties": {
         "$schema": {
             "type": "string"
         },
         "sentry": {
+            "additionalProperties": false,
             "type": "object",
-            "required": ["dsn"],
             "properties": {
                 "dsn": {
-                    "type": "string",
-                    "format": "uri"
+                    "format": "uri",
+                    "type": "string"
                 }
             },
-            "additionalProperties": false
+            "required": [
+                "dsn"
+            ]
         },
         "logLevel": {
-            "type": "string",
-            "enum": ["trace", "debug", "info", "warn", "error"],
-            "default": "info"
+            "anyOf": [
+                {
+                    "const": "trace",
+                    "type": "string"
+                },
+                {
+                    "const": "debug",
+                    "type": "string"
+                },
+                {
+                    "const": "info",
+                    "type": "string"
+                },
+                {
+                    "const": "warn",
+                    "type": "string"
+                },
+                {
+                    "const": "error",
+                    "type": "string"
+                }
+            ]
         },
         "paths": {
+            "additionalProperties": true,
             "type": "object",
+            "properties": {
+                "manufacturerFile": {
+                    "default": "../MANUFACTURER_LICENSE",
+                    "type": "string"
+                },
+                "configFile": {
+                    "default": "../user/config.json",
+                    "type": "string"
+                },
+                "factoryConfigFile": {
+                    "default": "../user/factory-config.json",
+                    "type": "string"
+                },
+                "opcbRs485TtyOperatorBin": {
+                    "default": "../bin/opcb-rs485-tty-operator",
+                    "type": "string"
+                },
+                "opcbModbusTcpClientBin": {
+                    "default": "../bin/opcb-modbus-tcp-client",
+                    "type": "string"
+                },
+                "opcbModbusTcpServerBin": {
+                    "default": "../bin/opcb-modbus-tcp-server",
+                    "type": "string"
+                },
+                "opcbOvervisRcClientBin": {
+                    "default": "../bin/opcb-overvis-rc-client",
+                    "type": "string"
+                },
+                "redisBinary": {
+                    "default": "../bin/redis-server",
+                    "type": "string"
+                },
+                "redisConfig": {
+                    "default": "../redis.conf",
+                    "type": "string"
+                },
+                "redisSocket": {
+                    "default": "/tmp/opcb-redis.sock",
+                    "type": "string"
+                },
+                "staticFilesDir": {
+                    "default": "../http-static",
+                    "type": "string"
+                },
+                "sqliteDbPath": {
+                    "default": "../user/opcb.sqlite3",
+                    "type": "string"
+                },
+                "sqliteLibDir": {
+                    "default": "../bin",
+                    "type": "string"
+                },
+                "dbMigrationsDir": {
+                    "default": "node_modules/@overvis/opcb-config-manager/db-migrations",
+                    "type": "string"
+                },
+                "labelFile": {
+                    "default": "../user/label.png",
+                    "type": "string"
+                },
+                "changelogFile": {
+                    "default": "../CHANGELOG.md",
+                    "type": "string"
+                }
+            },
             "required": [
                 "manufacturerFile",
                 "configFile",
@@ -37,49 +124,11 @@
                 "dbMigrationsDir",
                 "labelFile",
                 "changelogFile"
-            ],
-            "properties": {
-                "manufacturerFile": {
-                    "type": "string",
-                    "default": "../MANUFACTURER_LICENSE"
-                },
-                "configFile": { "type": "string", "default": "../user/config.json" },
-                "factoryConfigFile": {
-                    "type": "string",
-                    "default": "../user/factory-config.json"
-                },
-                "opcbRs485TtyOperatorBin": {
-                    "type": "string",
-                    "default": "../bin/opcb-rs485-tty-operator"
-                },
-                "opcbModbusTcpClientBin": {
-                    "type": "string",
-                    "default": "../bin/opcb-modbus-tcp-client"
-                },
-                "opcbModbusTcpServerBin": {
-                    "type": "string",
-                    "default": "../bin/opcb-modbus-tcp-server"
-                },
-                "opcbOvervisRcClientBin": {
-                    "type": "string",
-                    "default": "../bin/opcb-overvis-rc-client"
-                },
-                "redisBinary": { "type": "string", "default": "../bin/redis-server" },
-                "redisConfig": { "type": "string", "default": "../redis.conf" },
-                "redisSocket": { "type": "string", "default": "/tmp/opcb-redis.sock" },
-                "staticFilesDir": { "type": "string", "default": "../http-static" },
-                "sqliteDbPath": {
-                    "type": "string",
-                    "default": "../user/opcb.sqlite3"
-                },
-                "sqliteLibDir": { "type": "string", "default": "../bin" },
-                "dbMigrationsDir": {
-                    "type": "string",
-                    "default": "node_modules/@overvis/opcb-config-manager/db-migrations"
-                },
-                "labelFile": { "type": "string", "default": "../user/label.png" },
-                "changelogFile": { "type": "string", "default": "../CHANGELOG.md" }
-            }
+            ]
         }
-    }
+    },
+    "required": [
+        "logLevel",
+        "paths"
+    ]
 }
