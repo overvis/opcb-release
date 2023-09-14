@@ -19,6 +19,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.6] - 2023-09-14
+
+### Added
+
+- _Runtime:_ Remote tests during the manufacturing process.
+- _UI:_ Interface proxying through the Overvis server for the remote access.
+
+### Changed
+
+- _Runtime:_ Remote test server configuration changes.
+
 ## [0.3.5] - 2023-09-11
 
 ### Added
@@ -177,3 +188,5 @@ OPCB package in its current version supports the following:
 [0.3.2]: https://github.com/overvis/opcb-release/tree/opcb/0.3.2
 [0.3.3]: https://github.com/overvis/opcb-release/tree/opcb/0.3.3
 [0.3.4]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.4
+[0.3.5]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.5
+[0.3.6]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.6
