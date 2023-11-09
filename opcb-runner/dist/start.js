@@ -7,6 +7,7 @@ console.log(`${new Date().toISOString()} Initializing imports and logging...`);
 const opcbApi = tslib_1.__importStar(require("@overvis/opcb-api"));
 const opcbConfigManager = tslib_1.__importStar(require("@overvis/opcb-config-manager"));
 const opcbLinuxOperator = tslib_1.__importStar(require("@overvis/opcb-linux-operator"));
+const opcb_ts_shared_1 = require("@overvis/opcb-ts-shared");
 const opcbVirtualDevice = tslib_1.__importStar(require("@overvis/opcb-virtual-device"));
 const server_tools_1 = require("@overvis/server-tools");
 const childProcess = tslib_1.__importStar(require("child_process"));
@@ -22,7 +23,6 @@ async function run() {
         throw new Error("Runner config path was not specified. Specify it as the command line argument.");
     }
     const config = (0, server_tools_1.loadConfig)(runnerConfigPath, config_1.CONFIG_SCHEMA);
-    // TODO_FUTURE: initialize sentry
     // initialize logging
     logger = (0, pino_1.default)({
         level: config.logLevel,
@@ -33,6 +33,8 @@ async function run() {
     logger.info("Starting OPCB runtime...");
     // init sentry
     (0, server_tools_1.initSentry)((_a = config.sentry) === null || _a === void 0 ? void 0 : _a.dsn);
+    (0, opcb_ts_shared_1.initMemDb)(config.paths.sqliteMemDbPath, config.paths.sqliteLibDir);
+    (0, opcb_ts_shared_1.migrateDb)(config.paths.sqliteDbPath, logger.child({ module: "RUN" }), config.paths.sqliteLibDir);
     const subprocesses = [];
     // start redis if needed
     const redisBin = config.paths.redisBinary;
@@ -41,8 +43,9 @@ async function run() {
     subprocesses.push(monitorProcess(await startBinary(redisBin, redisArgs), logger.child({ module: "RDS" })));
     // start ts modules
     const redisSocket = config.paths.redisSocket;
-    subprocesses.push((await opcbConfigManager.run(logger.child({ module: "CFG" }), {
-        redisConnectString: redisSocket,
+    const redisClient = new opcb_ts_shared_1.RedisClient(redisSocket, logger.child({ module: "RDC" }));
+    await opcbConfigManager.run(logger.child({ module: "CFG" }), {
+        redisClient: redisClient.getActorClient("CFG"),
         manufacturerFile: { path: config.paths.manufacturerFile },
         configFile: {
             path: config.paths.configFile,
@@ -50,23 +53,22 @@ async function run() {
         factoryConfigFile: {
             path: config.paths.factoryConfigFile,
         },
-        sqliteDbPath: config.paths.sqliteDbPath,
-        sqliteLibDir: config.paths.sqliteLibDir,
-        dbMigrationsDir: config.paths.dbMigrationsDir,
-    }))[0]);
-    subprocesses.push(opcbApi.run(logger.child({ module: "API" }), { redisSocket }));
+    });
+    await opcbApi.run(logger.child({ module: "API" }), {
+        redisClient: redisClient.getActorClient("API"),
+    });
     subprocesses.push(opcbLinuxOperator.run(logger.child({ module: "LIN" }), {
-        redisSocket,
+        redisClient: redisClient.getActorClient("LIN"),
         staticFilesDir: absolutePath(config.paths.staticFilesDir),
         manufacturerFile: absolutePath(config.paths.manufacturerFile),
         changelogFile: absolutePath(config.paths.changelogFile),
         labelFile: absolutePath(config.paths.labelFile),
     }));
-    subprocesses.push((await opcbVirtualDevice.run(logger.child({ module: "VIR" }), {
-        redisSocket,
+    await opcbVirtualDevice.run(logger.child({ module: "VIR" }), {
+        redisClient: redisClient.getActorClient("VIR"),
         sqliteDbPath: config.paths.sqliteDbPath,
         sqliteLibDir: config.paths.sqliteLibDir,
-    }))[0]);
+    });
     // start binary modules
     // TODO_FUTURE: design args
     const binArgs = [config.logLevel, redisSocket];
@@ -83,6 +85,7 @@ async function run() {
         subprocesses.push(monitorProcess(await startBinary(config.paths.opcbOvervisRcClientBin, binArgs), logger.child({ module: "ORC" })));
     }
     // monitor all modules as promises, exit on failure
+    subprocesses.push(redisClient.listenCmdStreamForever());
     await Promise.race(subprocesses);
     throw new Error("Main process exited because one of the subprocess promises has resolved.");
 }
@@ -90,6 +93,7 @@ async function startBinary(cmd, args) {
     return new Promise((resolve, reject) => {
         const cp = childProcess.spawn(cmd, args);
         cp.on("spawn", () => {
+            cp.removeAllListeners();
             process.on("exit", () => {
                 cp.kill();
             });
@@ -154,6 +158,12 @@ async function monitorProcess(cp, logger) {
         });
     });
 }
+function absolutePath(pathStr) {
+    if (!pathStr.startsWith("/")) {
+        return path_1.default.normalize(`${process.cwd()}/${pathStr}`);
+    }
+    return pathStr;
+}
 run().catch((e) => {
     if (logger) {
         logger.fatal(e);
@@ -166,10 +176,4 @@ run().catch((e) => {
     (0, server_tools_1.reportErrorToSentry)(e);
     setTimeout(() => process.exit(1), 1000);
 });
-function absolutePath(pathStr) {
-    if (!pathStr.startsWith("/")) {
-        return path_1.default.normalize(`${process.cwd()}/${pathStr}`);
-    }
-    return pathStr;
-}
 //# sourceMappingURL=start.js.map

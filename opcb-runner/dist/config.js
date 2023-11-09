@@ -54,8 +54,8 @@ exports.CONFIG_SCHEMA = typebox_1.Type.Object({
         sqliteLibDir: typebox_1.Type.String({
             default: "../bin",
         }),
-        dbMigrationsDir: typebox_1.Type.String({
-            default: "node_modules/@overvis/opcb-config-manager/db-migrations",
+        sqliteMemDbPath: typebox_1.Type.String({
+            default: "../user/opcb-mem.sqlite3",
         }),
         labelFile: typebox_1.Type.String({
             default: "../user/label.png",

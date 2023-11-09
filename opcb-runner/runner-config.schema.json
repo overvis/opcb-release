@@ -98,8 +98,8 @@
                     "default": "../bin",
                     "type": "string"
                 },
-                "dbMigrationsDir": {
-                    "default": "node_modules/@overvis/opcb-config-manager/db-migrations",
+                "sqliteMemDbPath": {
+                    "default": "../user/opcb-mem.sqlite3",
                     "type": "string"
                 },
                 "labelFile": {
@@ -121,7 +121,7 @@
                 "staticFilesDir",
                 "sqliteDbPath",
                 "sqliteLibDir",
-                "dbMigrationsDir",
+                "sqliteMemDbPath",
                 "labelFile",
                 "changelogFile"
             ]

@@ -19,6 +19,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.3.7] - 2023-11-09
+
+### Added
+
+- _Runtime:_ WiFi password is automatically encoded in Base64 in configuration file.
+- _Runtime:_ Default "admin" user password and WiFi Access Point password are randomised during the
+  manufacturing.
+- _Runtime:_ Printing default admin/AP password on the device label image.
+
+### Changed
+
+- _Runtime:_ Removed ttyS\* interfaces from RS-485 interfaces list.
+- _Runtime:_ Internal refactoring of Redis/Sqlite communication code.
+- _Runtime:_ During the manufacturing testing, OPCB sends API authentication token to the testing
+  server, instead of relying on default password to be known.
+
+### Fixed
+
+- _Runtime:_ Incorrect WiFi mode information in `OPCB_INFO` command file.
+
 ## [0.3.6] - 2023-09-14
 
 ### Added
@@ -190,3 +210,4 @@ OPCB package in its current version supports the following:
 [0.3.4]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.4
 [0.3.5]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.5
 [0.3.6]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.6
+[0.3.7]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.7
