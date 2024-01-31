@@ -109,6 +109,14 @@
                 "changelogFile": {
                     "default": "../CHANGELOG.md",
                     "type": "string"
+                },
+                "userTasksProjectDir": {
+                    "default": "../user/tasks",
+                    "type": "string"
+                },
+                "tasksProjectTemplateArchive": {
+                    "default": "../tasks-template.tar.gz",
+                    "type": "string"
                 }
             },
             "required": [
@@ -123,7 +131,9 @@
                 "sqliteLibDir",
                 "sqliteMemDbPath",
                 "labelFile",
-                "changelogFile"
+                "changelogFile",
+                "userTasksProjectDir",
+                "tasksProjectTemplateArchive"
             ]
         }
     },

@@ -1,4 +1,6 @@
 #!/bin/sh
 
+PATH="/opcb/node/bin:$PATH"
+
 cd opcb-runner
-../node/bin/node dist/start ../runner-config.json
+node dist/start ../runner-config.json

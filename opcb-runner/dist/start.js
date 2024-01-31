@@ -9,11 +9,11 @@ const opcbConfigManager = tslib_1.__importStar(require("@overvis/opcb-config-man
 const opcbLinuxOperator = tslib_1.__importStar(require("@overvis/opcb-linux-operator"));
 const opcb_ts_shared_1 = require("@overvis/opcb-ts-shared");
 const opcbVirtualDevice = tslib_1.__importStar(require("@overvis/opcb-virtual-device"));
+const opcbTasks = tslib_1.__importStar(require("@overvis/opcb-tasks"));
 const server_tools_1 = require("@overvis/server-tools");
 const childProcess = tslib_1.__importStar(require("child_process"));
 const path_1 = tslib_1.__importDefault(require("path"));
 const pino_1 = tslib_1.__importDefault(require("pino"));
-const config_1 = require("./config");
 let logger;
 async function run() {
     var _a;
@@ -22,7 +22,7 @@ async function run() {
     if (!runnerConfigPath) {
         throw new Error("Runner config path was not specified. Specify it as the command line argument.");
     }
-    const config = (0, server_tools_1.loadConfig)(runnerConfigPath, config_1.CONFIG_SCHEMA);
+    const config = (0, server_tools_1.loadConfig)(runnerConfigPath, opcb_ts_shared_1.RUNNER_CONFIG_SCHEMA);
     // initialize logging
     logger = (0, pino_1.default)({
         level: config.logLevel,
@@ -54,20 +54,37 @@ async function run() {
             path: config.paths.factoryConfigFile,
         },
     });
-    await opcbApi.run(logger.child({ module: "API" }), {
+    await opcbApi.run({
+        logger: logger.child({ module: "API" }),
         redisClient: redisClient.getActorClient("API"),
+        sqliteDbPath: absolutePath(config.paths.sqliteDbPath),
+        sqliteMemDbPath: absolutePath(config.paths.sqliteMemDbPath),
+        sqliteLibDir: absolutePath(config.paths.sqliteLibDir),
     });
-    subprocesses.push(opcbLinuxOperator.run(logger.child({ module: "LIN" }), {
+    subprocesses.push(opcbLinuxOperator.run({
+        logger: logger.child({ module: "LIN" }),
         redisClient: redisClient.getActorClient("LIN"),
         staticFilesDir: absolutePath(config.paths.staticFilesDir),
         manufacturerFile: absolutePath(config.paths.manufacturerFile),
         changelogFile: absolutePath(config.paths.changelogFile),
         labelFile: absolutePath(config.paths.labelFile),
-    }));
+        sqliteMemDbPath: absolutePath(config.paths.sqliteMemDbPath),
+        sqliteLibDir: absolutePath(config.paths.sqliteLibDir),
+        tasksProjectDir: absolutePath(config.paths.userTasksProjectDir),
+        tasksTemplatePath: absolutePath(config.paths.tasksProjectTemplateArchive),
+    })[0]);
     await opcbVirtualDevice.run(logger.child({ module: "VIR" }), {
         redisClient: redisClient.getActorClient("VIR"),
-        sqliteDbPath: config.paths.sqliteDbPath,
-        sqliteLibDir: config.paths.sqliteLibDir,
+        sqliteDbPath: absolutePath(config.paths.sqliteDbPath),
+        sqliteLibDir: absolutePath(config.paths.sqliteLibDir),
+    });
+    await opcbTasks.run({
+        logger: logger.child({ module: "TSK" }),
+        redisClient: redisClient.getActorClient("TSK"),
+        sqliteDbPath: absolutePath(config.paths.sqliteDbPath),
+        memSqliteDbPath: absolutePath(config.paths.sqliteMemDbPath),
+        sqliteLibDir: absolutePath(config.paths.sqliteLibDir),
+        redisUrl: redisSocket,
     });
     // start binary modules
     // TODO_FUTURE: design args
@@ -106,7 +123,7 @@ async function startBinary(cmd, args) {
 }
 async function monitorProcess(cp, logger) {
     let startCmd = cp.spawnfile;
-    if (cp.spawnargs) {
+    if (cp.spawnargs.length > 0) {
         startCmd += " " + cp.spawnargs.join(" ");
     }
     let stdoutBuffer = "";

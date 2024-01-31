@@ -19,6 +19,53 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.4.0] - 2024-01-31
+
+### Added
+
+- _Runtime_: Runtime and API for running user-created tasks. Tasks are JS scripts that are executed
+  in worker threads and running on background. OPCB provides helper library, allowing user tasks
+  communicate with OPCB runtime via Redis/Sqlite. Tasks project is initialized in user folder from
+  the template by API request. Tasks project includes tools to compile JS from TypeScript and a set
+  of helper function to interact with other OPCB runtime modules.
+- _Runtime_: Added Modbus library, allowing to easily encode/decode Modbus RTU/ASCII/TCP requests
+  and responses. Useful for Modbus-related tasks.
+- _Runtime:_ Reporting `ttyUSB0` as available TTY if no interfaces were found, to provide a chance
+  to set up TTY connection without an inserted USB device.
+- _Runtime:_ Automatic filesystem check on boot. Helpful in cases when FS was corrupted due to
+  power loss or incorrect shutdown. Can be disabled in config.
+
+### Changed
+
+- _Runtime_: Updated NodeJS to v20.9.0.
+- _Runtime:_ Centralized schemas and sqlite procedures.
+- _Runtime:_ RS-485 port open error log message moved to debug log.
+- _UI:_ Since WiFi password is randomized and set after finalizing manufacture process,
+  finalization UI doesn't attempt to connect browser to the API, and just displays a success
+  message after receiving confirmation from API, losing the connection and waiting for 10s delay.
+- _UI:_ Displaying LAN/WiFi IP addresses as links in "Internet" section.
+- _UI:_ Additional information icons in form fields are now marked with blue color to accentuate
+  the interactibility.
+- _UI:_ Displaying a list of connected command files in the footer.
+- _UI:_ Displaying username in the header for non-admin users.
+
+### Fixed
+
+- _UI:_ Modbus TCP Server logs were not displayed properly.
+- _UI:_ Cloud actions (unbind and access from the cloud) are hidden when UI is proxied through
+  cloud.
+- _UI:_ Fixed multiple "success" messages being displayed during firmware update process.
+- _Runtime:_ RS-485 TTY stop and parity bit option "1N" was not working.
+- _Runtime:_ RS-485 port was waiting forever to send a message if there is noise present on the
+  TTY.
+- _UI:_ Message about firmware version update was displayed incorrectly after factory settings
+  reset and also for newly manufactured devices.
+- _UI:_ Debug log interface was incorrectly resized for logs containing long lines.
+- _Runtime:_ Runtime failed with error if the list of TTYs, available Wi-Fi's or timezones was
+  empty during processing.
+- _UI:_ Added non-caching headers to some static files (changelog, label) to fix the issue of
+  displaying old version of the file after it was updated.
+
 ## [0.3.7] - 2023-11-09
 
 ### Added
@@ -211,3 +258,4 @@ OPCB package in its current version supports the following:
 [0.3.5]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.5
 [0.3.6]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.6
 [0.3.7]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.7
+[0.4.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.4.0

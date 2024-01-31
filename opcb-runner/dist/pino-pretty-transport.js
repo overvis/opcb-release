@@ -98,6 +98,9 @@ function formatMsg(log) {
     else {
         msg += "⛔️⛔️⛔️ ";
     }
+    if (log.moduleSuffix && typeof log.moduleSuffix === "string") {
+        msg += colorette.gray(log.moduleSuffix + " ");
+    }
     if (log.cmd && typeof log.cmd === "string") {
         if (log.stderr === true) {
             msg += colorette.gray(colorette.underline(log.cmd) + " err> ");
@@ -147,6 +150,7 @@ function formatMsg(log) {
     delete log.level;
     delete log.time;
     delete log.module;
+    delete log.moduleSuffix;
     delete log.stderr;
     delete log.stdout;
     delete log.cmd;

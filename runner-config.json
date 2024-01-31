@@ -17,7 +17,9 @@
         "sqliteLibDir": "../bin",
         "staticFilesDir": "../http-static",
         "labelFile": "../user/label.png",
-        "changelogFile": "../CHANGELOG.md"
+        "changelogFile": "../CHANGELOG.md",
+        "userTasksProjectDir": "../user/tasks",
+        "tasksProjectTemplateArchive": "../tasks-template.tar.gz"
     },
     "sentry": {
         "dsn": "https://183bc003e6564b428af428e5ed98c72c@o279825.ingest.sentry.io/4505284224024576"
