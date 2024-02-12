@@ -19,6 +19,38 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.0] - 2024-02-12
+
+### Added
+
+- _Runtime:_ New OPCB-224L, supporting LoraSens protocol able to connect and read data from LoRa
+  sensor devices.
+- _Runtime:_ LWG-1 weight sensor array device support.
+- _Runtime:_ Background task to log incoming LoraSens data from sensors.
+- _UI:_ Interface for managing connected LoraSens devices
+- _Runtime:_ API and internal procedures for managing authorized SSH keys.
+- _UI:_ Interface for managing authorized SSH keys on the device.
+- _Runtime:_ Reporting connectivity telemetrics to the external server for licensed devices. Can be
+  disabled and configured in config file.
+- _UI:_ Hiding the private key on license picture on LAN/Internet page.
+- _UI:_ Increased the timeout for retrieving Wi-Fi list API request (sometimes Wi-Fi scanning can
+  take more than 10s).
+- _UI:_ Link to changelog in the successful update notification.
+- _UI/Runtime:_ SD-card speed testing utility on the "control" page.
+- _Runtime:_ Enabling SPI interface for OPCB-224L automatically. Can be disabled in the config
+  file.
+
+### Changed
+
+- _Runtime:_ Authorized root SSH key is only set once during the first boot.
+
+### Fixed
+
+- _Runtime:_ Incorrect path was reported in log regarding restoring factory value in config.
+- _Runtime:_ In some cases, Node 20 process was taking 300% CPU because of Linux kernel's bug with
+  uvlib. Using UV_USE_IO_URING=0 environment value now to fix the issue.
+- _UI:_ When the connection with VPN was lost, device was displaying VPN status as "unregistered".
+
 ## [0.4.0] - 2024-01-31
 
 ### Added
@@ -259,3 +291,4 @@ OPCB package in its current version supports the following:
 [0.3.6]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.6
 [0.3.7]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.7
 [0.4.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.4.0
+[0.5.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.0

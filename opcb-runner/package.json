@@ -31,7 +31,7 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "clean": "rm -rf dist && rm tsconfig.tsbuildinfo || true",
+    "clean": "rm -rf dist && (rm tsconfig.tsbuildinfo || true) && cd ../opcb-api && yarn clean && cd ../opcb-config-manager && yarn clean && cd ../opcb-linux-operator && yarn clean && cd ../opcb-tasks && yarn clean && cd ../opcb-ts-shared && yarn clean && cd ../opcb-virtual-device && yarn clean && cd ../server-tools && yarn clean && cd ../opcb-runner",
     "start": "yarn build && node --enable-source-maps dist/start",
     "save-schemas": "yarn build && node dist/save-schemas"
   }

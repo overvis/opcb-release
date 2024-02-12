@@ -40,7 +40,8 @@ async function run() {
     const redisBin = config.paths.redisBinary;
     const redisArgs = [config.paths.redisConfig];
     logger.info(`Starting Redis server: ${redisBin} ${redisArgs.join(" ")}`);
-    subprocesses.push(monitorProcess(await startBinary(redisBin, redisArgs), logger.child({ module: "RDS" })));
+    const cwd = config.paths.binCwd;
+    subprocesses.push(monitorProcess(await startBinary(cwd, redisBin, redisArgs), logger.child({ module: "RDS" })));
     // start ts modules
     const redisSocket = config.paths.redisSocket;
     const redisClient = new opcb_ts_shared_1.RedisClient(redisSocket, logger.child({ module: "RDC" }));
@@ -90,25 +91,35 @@ async function run() {
     // TODO_FUTURE: design args
     const binArgs = [config.logLevel, redisSocket];
     if (config.paths.opcbRs485TtyOperatorBin) {
-        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbRs485TtyOperatorBin, binArgs), logger.child({ module: "RSO" })));
+        subprocesses.push(monitorProcess(await startBinary(cwd, config.paths.opcbRs485TtyOperatorBin, binArgs), logger.child({ module: "RSO" })));
     }
     if (config.paths.opcbModbusTcpClientBin) {
-        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbModbusTcpClientBin, binArgs), logger.child({ module: "MTC" })));
+        subprocesses.push(monitorProcess(await startBinary(cwd, config.paths.opcbModbusTcpClientBin, binArgs), logger.child({ module: "MTC" })));
     }
     if (config.paths.opcbModbusTcpServerBin) {
-        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbModbusTcpServerBin, binArgs), logger.child({ module: "MTS" })));
+        subprocesses.push(monitorProcess(await startBinary(cwd, config.paths.opcbModbusTcpServerBin, binArgs), logger.child({ module: "MTS" })));
     }
     if (config.paths.opcbOvervisRcClientBin) {
-        subprocesses.push(monitorProcess(await startBinary(config.paths.opcbOvervisRcClientBin, binArgs), logger.child({ module: "ORC" })));
+        subprocesses.push(monitorProcess(await startBinary(cwd, config.paths.opcbOvervisRcClientBin, binArgs), logger.child({ module: "ORC" })));
+    }
+    if (config.paths.opcbLorasensGatewayBin) {
+        const binArgs = [
+            config.logLevel,
+            redisSocket,
+            absolutePath(config.paths.sqliteDbPath),
+            absolutePath(config.paths.sqliteMemDbPath),
+            "45000",
+        ];
+        subprocesses.push(monitorProcess(await startBinary(cwd, config.paths.opcbLorasensGatewayBin, binArgs), logger.child({ module: "LGW" })));
     }
     // monitor all modules as promises, exit on failure
     subprocesses.push(redisClient.listenCmdStreamForever());
     await Promise.race(subprocesses);
     throw new Error("Main process exited because one of the subprocess promises has resolved.");
 }
-async function startBinary(cmd, args) {
+async function startBinary(cwd, cmd, args) {
     return new Promise((resolve, reject) => {
-        const cp = childProcess.spawn(cmd, args);
+        const cp = childProcess.spawn(cmd, args, { cwd });
         cp.on("spawn", () => {
             cp.removeAllListeners();
             process.on("exit", () => {
@@ -117,7 +128,7 @@ async function startBinary(cmd, args) {
             resolve(cp);
         });
         cp.on("error", (err) => {
-            reject(new Error(`Spawinging binary process ${cmd} errored: ${err.toString()}`));
+            reject(new Error(`Spawning binary process ${cmd} errored: ${err.toString()}`));
         });
     });
 }

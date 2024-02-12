@@ -59,23 +59,31 @@
                     "type": "string"
                 },
                 "opcbRs485TtyOperatorBin": {
-                    "default": "../bin/opcb-rs485-tty-operator",
+                    "default": "./opcb-rs485-tty-operator",
                     "type": "string"
                 },
                 "opcbModbusTcpClientBin": {
-                    "default": "../bin/opcb-modbus-tcp-client",
+                    "default": "./opcb-modbus-tcp-client",
                     "type": "string"
                 },
                 "opcbModbusTcpServerBin": {
-                    "default": "../bin/opcb-modbus-tcp-server",
+                    "default": "./opcb-modbus-tcp-server",
                     "type": "string"
                 },
                 "opcbOvervisRcClientBin": {
-                    "default": "../bin/opcb-overvis-rc-client",
+                    "default": "./opcb-overvis-rc-client",
+                    "type": "string"
+                },
+                "opcbLorasensGatewayBin": {
+                    "default": "./opcb-lorasens-gateway",
+                    "type": "string"
+                },
+                "binCwd": {
+                    "default": "/opcb/bin",
                     "type": "string"
                 },
                 "redisBinary": {
-                    "default": "../bin/redis-server",
+                    "default": "./redis-server",
                     "type": "string"
                 },
                 "redisConfig": {
@@ -94,12 +102,12 @@
                     "default": "../user/opcb.sqlite3",
                     "type": "string"
                 },
-                "sqliteLibDir": {
-                    "default": "../bin",
+                "sqliteMemDbPath": {
+                    "default": "/tmp/opcb-mem.sqlite3",
                     "type": "string"
                 },
-                "sqliteMemDbPath": {
-                    "default": "../user/opcb-mem.sqlite3",
+                "sqliteLibDir": {
+                    "default": "../bin",
                     "type": "string"
                 },
                 "labelFile": {
@@ -123,13 +131,14 @@
                 "manufacturerFile",
                 "configFile",
                 "factoryConfigFile",
+                "binCwd",
                 "redisBinary",
                 "redisConfig",
                 "redisSocket",
                 "staticFilesDir",
                 "sqliteDbPath",
-                "sqliteLibDir",
                 "sqliteMemDbPath",
+                "sqliteLibDir",
                 "labelFile",
                 "changelogFile",
                 "userTasksProjectDir",
