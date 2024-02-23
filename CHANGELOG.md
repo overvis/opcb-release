@@ -19,6 +19,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.1] - 2024-02-23
+
+### Added
+
+- _Runtime:_ IPKA master protocol support on RS-485.
+- _Runtime/UI:_ LTE USB modems basic support (currently only Huawei E353(3.se)).
+
+### Fixed
+
+- _Runtime:_ Sometimes disconnection reslted in SIGPIPE error in Modbus TCP server.
+- _UI:_ In stream log ASCII was incorrectly decoded.
+- _UI:_ Debug connection log didn't display the direction of transfer (TX/RX) for messages that
+  can't be parsed by highlighter.
+- _Runtime:_ RS-485 module now forcefully ends the receiving process after the buffer is full. This
+  is important when there is a constant stream of data or noise is on the line.
+
 ## [0.5.0] - 2024-02-12
 
 ### Added
@@ -292,3 +308,4 @@ OPCB package in its current version supports the following:
 [0.3.7]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.3.7
 [0.4.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.4.0
 [0.5.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.0
+[0.5.1]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.1
