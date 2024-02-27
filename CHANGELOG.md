@@ -19,6 +19,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.2] - 2024-02-27
+
+### Fixed
+
+- _Runtime:_ Missed `opcb224l` support in config schema.
+
 ## [0.5.1] - 2024-02-23
 
 ### Added
@@ -309,3 +315,4 @@ OPCB package in its current version supports the following:
 [0.4.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.4.0
 [0.5.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.0
 [0.5.1]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.1
+[0.5.2]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.2
