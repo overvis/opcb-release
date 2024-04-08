@@ -19,6 +19,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.3] - 2024-04-08
+
+### Added
+
+- _Runtime:_ Config is backed up on changes. Config file write is an atomic operation now.
+- _Runtime:_ Temporary Modbus registers for LoraSens LWG-1 data with additional LoraSens related
+  settings in config file.
+- _Tasks:_ `lorasens-logger` task to read and store information from LWG-1 (weight) and LTH-1
+  (temperature/humidity) sensors.
+
+### Fixed
+
+- _Runtime:_ Background task logging LoraSens data incorrectly wrote loaded/unloaded counters.
+- _Runtime:_ Don't start Modbus TCP server if it's disabled in configuration (preventing SIGTERM
+  errors).
+- _Runtime:_ Added missing `opcb224l` support in config schema.
+- _Runtime:_ Fixed an error while detecting USB device unplugging (RS-485 module).
+
 ## [0.5.2] - 2024-02-27
 
 ### Fixed
