@@ -19,6 +19,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.4] - 2024-05-09
+
+### Changed
+
+- _UI:_ Manufacturing interface texts review.
+
+### Fixed
+
+- _UI:_ Battery level was not displaying on 0% for LoraSens devices.
+- _UI:_ Interface was not updating after switching LWG-1 device on/off (perpetual spinner).
+- _Runtime:_ Flush FS cache after writing command file to the external USB stick.
+
 ## [0.5.3] - 2024-04-08
 
 ### Added
@@ -34,14 +46,14 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - _Runtime:_ Background task logging LoraSens data incorrectly wrote loaded/unloaded counters.
 - _Runtime:_ Don't start Modbus TCP server if it's disabled in configuration (preventing SIGTERM
   errors).
-- _Runtime:_ Added missing `opcb224l` support in config schema.
+- _Runtime:_ Additional `opcb224l` fixes in config schema.
 - _Runtime:_ Fixed an error while detecting USB device unplugging (RS-485 module).
 
 ## [0.5.2] - 2024-02-27
 
 ### Fixed
 
-- _Runtime:_ Missed `opcb224l` support in config schema.
+- _Runtime:_ Added missing `opcb224l` support in config schema.
 
 ## [0.5.1] - 2024-02-23
 
@@ -334,3 +346,5 @@ OPCB package in its current version supports the following:
 [0.5.0]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.0
 [0.5.1]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.1
 [0.5.2]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.2
+[0.5.3]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.3
+[0.5.4]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.4
