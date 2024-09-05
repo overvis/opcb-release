@@ -19,6 +19,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Security
 
+## [0.5.5] - 2024-09-05
+
+### Added
+
+- _Runtime/UI:_ Ability to set up the RS-485 connection by full file reference. That allows it to
+  bind the connection to the physical port, persistently through the reboots.
+- _Runtime/UI:_ Ability to view stdout log in control interface.
+- _Runtime:_ Improved the GSM state information handling for the UI.
+
+### Changed
+
+- _Runtime:_ Using Armbian_23.8.1_Orangepipcplus_jammy_current_6.1.47 image as a base now. Should
+  fix the issue of losing GSM connection when device is rebooted with GSM USB stick inserted.
+
+### Fixed
+
+- _UI:_ Correctly processing "unknown" status on GSM interface.
+- _UI:_ LWG-1 callibration UI bug fix.
+
 ## [0.5.4] - 2024-05-09
 
 ### Changed
@@ -348,3 +367,4 @@ OPCB package in its current version supports the following:
 [0.5.2]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.2
 [0.5.3]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.3
 [0.5.4]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.4
+[0.5.5]: https://github.com/overvis/opcb-release/releases/tag/opcb%2F0.5.5

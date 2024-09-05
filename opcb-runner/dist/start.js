@@ -27,7 +27,23 @@ async function run() {
     logger = (0, pino_1.default)({
         level: config.logLevel,
         transport: {
-            target: "./pino-pretty-transport",
+            targets: [
+                {
+                    level: config.logLevel,
+                    target: "./pino-pretty-transport",
+                    options: {},
+                },
+                {
+                    level: config.logLevel,
+                    target: "./pino-unixsock-transport",
+                    options: {},
+                },
+                {
+                    level: "info",
+                    target: "pino/file",
+                    options: { destination: "/tmp/opcb-info.log", mkdir: true, append: false },
+                },
+            ],
         },
     });
     logger.info("Starting OPCB runtime...");
